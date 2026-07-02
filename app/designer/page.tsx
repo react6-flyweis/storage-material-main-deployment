@@ -44,23 +44,10 @@ export default function Page() {
 
   return (
     <>
-      {showAlert && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-blue-500 text-white px-5 py-2 rounded shadow flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <span className="font-medium">
-            Designer is coming soon - This is a demo version
-          </span>
-          <button
-            onClick={() => setShowAlert(false)}
-            className="ml-2 hover:bg-blue-600 rounded-full p-1 transition-colors"
-            aria-label="Close alert"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-      )}
+
       <DesignerHeader />
-      <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950/5">
-        <div className="flex flex-1 min-h-0 overflow-hidden pb-24 md:pb-0">
+      <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950/5 overflow-hidden">
+        <div className="flex flex-1 min-h-0 overflow-hidden  md:pb-0">
           <div className="hidden md:block md:border-r md:border-slate-200/60 bg-white/70">
             <SideMenu active={activeTab} onChange={setActiveTab} />
           </div>
@@ -137,7 +124,7 @@ export default function Page() {
           active={activeTab}
           onChange={setActiveTab}
           variant="mobile"
-          className="md:hidden px-6 pb-4"
+          className="md:hidden px-6 pb-4 relative z-[9999]"
         />
       </div>
     </>

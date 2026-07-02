@@ -6,22 +6,22 @@ export default function WhoWeAre() {
     <section className="py-16 bg-white">
       <Container as="div">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12">
             Who We Are
           </h2>
 
-          <div className="mt-10 max-w-3xl mx-auto space-y-10 text-lg  text-gray-700 leading-relaxed">
+          <div className="max-w-[1130px] mx-auto space-y-10 font-['Inter'] font-normal text-[#3A3A3A] text-xl md:text-[28px] leading-relaxed md:leading-[40px]">
             <p>
-              A Steel Building Partner You Can Rely On Storage Material is a
-              trusted provider of custom steel building solutions, offering
-              everything from garages and workshops to large-scale commercial
-              and agricultural structures.
+              Steel Building Depot is a trusted provider of custom steel building
+              solutions, offering everything from garages and workshops to
+              large-scale commercial and agricultural structures.
             </p>
 
             <p>
-              We combine engineering expertise, advanced manufacturing, and
-              customer-first service to deliver steel buildings that meet
-              real-world needs—no matter the size or complexity of the project.
+              We combine engineering expertise, advanced manufacturing and
+              customer-first service to deliver steel buildings designed for
+              real-world performance—no matter the size or complexity of your
+              project.
             </p>
           </div>
         </div>

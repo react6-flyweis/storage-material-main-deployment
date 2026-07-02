@@ -53,12 +53,13 @@ export const contactSchema = z.object({
     .min(1, "Email is required")
     .email("Please enter a valid email address")
     .max(100, "Email must be less than 100 characters"),
+  countryCode: z.string().min(1, "Country code is required"),
   phoneNumber: z
     .string()
     .min(1, "Phone number is required")
     .regex(
-      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-      "Please enter a valid phone number (e.g., (123) 456-7890 or 123-456-7890)"
+      /^(\+?\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/,
+      "Please enter a valid phone number (e.g., +1 123 456 7890 or 123-456-7890)"
     ),
 });
 
@@ -76,3 +77,11 @@ export type LocationFormData = z.infer<typeof locationSchema>;
 export type NameFormData = z.infer<typeof nameSchema>;
 export type ContactFormData = z.infer<typeof contactSchema>;
 export type FullBuildingFormData = z.infer<typeof fullBuildingFormSchema>;
+
+export const COUNTRY_CODES = [
+  { value: "+1", label: "🇺🇸 +1", country: "US" },
+  { value: "+44", label: "🇬🇧 +44", country: "UK" },
+  { value: "+91", label: "🇮🇳 +91", country: "IN" },
+  { value: "+61", label: "🇦🇺 +61", country: "AU" },
+  { value: "+1 ", label: "🇨🇦 +1", country: "CA" },
+];

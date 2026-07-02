@@ -56,7 +56,7 @@ export function BuildingTypeStep({ form, onNext }: BuildingTypeStepProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-4">
         <h3 className="text-2xl font-bold mb-4 text-center">
-          What Best Describes Your Building?
+          What Best Describes Your Building? 
         </h3>
 
         <FormField

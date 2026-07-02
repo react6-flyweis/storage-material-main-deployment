@@ -4,9 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import GetAQuoteDialog from "../GetAQuoteDialog";
-import theSteelLogo from "@/assets/the-steel-logo.svg";
+import theSteelLogo from "@/assets/logo/logo2.svg";
 import Container from "../Container";
-import { RotateCcw, Share2, Home, ChevronDown } from "lucide-react";
+import {
+  RotateCcw,
+  Share2,
+  Home,
+  ChevronDown,
+  MessageSquare,
+} from "lucide-react";
+import ContactUsDialog from "../ContactUsDialog";
 import { OptionsMenu } from "./OptionsMenu";
 
 export default function DesignerHeader() {
@@ -23,7 +30,7 @@ export default function DesignerHeader() {
             <Image
               src={theSteelLogo}
               alt="Steel Building Depot Logo"
-              className="h-10 w-auto"
+              className="h-8 w-auto"
             />
           </Link>
           <div className="hidden sm:flex items-center gap-3">
@@ -52,8 +59,29 @@ export default function DesignerHeader() {
                 Get a Quote
               </Button>
             </GetAQuoteDialog>
-            <Button variant="ghost" size="icon" className="p-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="p-2 relative group"
+              onClick={() => {
+                const url = window.location.href;
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: "My Building Design",
+                      url: url,
+                    })
+                    .catch(() => { });
+                } else {
+                  navigator.clipboard.writeText(url);
+                  alert("Link copied to clipboard!");
+                }
+              }}
+            >
               <Share2 />
+              <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                Share Design
+              </span>
             </Button>
             <Link href="/" aria-label="Home" className="text-white/90">
               <Button variant="ghost" size="icon" className="p-2">
@@ -62,11 +90,13 @@ export default function DesignerHeader() {
             </Link>
           </div>
 
-          {/* Mobile: show compact quote button */}
-          <div className="sm:hidden">
-            <GetAQuoteDialog>
-              <Button size="sm">Get a Quote</Button>
-            </GetAQuoteDialog>
+          {/* Mobile: show compact contact button, hide quote per request */}
+          <div className="sm:hidden flex items-center gap-2">
+            <ContactUsDialog>
+              <Button variant="ghost" size="icon" className="text-white">
+                <MessageSquare size={20} />
+              </Button>
+            </ContactUsDialog>
           </div>
         </div>
       </Container>

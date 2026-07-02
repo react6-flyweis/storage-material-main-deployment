@@ -1,8 +1,10 @@
 "use server";
 
+import { getRestApiBaseUrl } from "@/lib/rest-api-base";
+
 export async function getContactDetails() {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL ?? "";
+    const base = getRestApiBaseUrl();
     const url = `${base}/static/viewContactDetails`;
     const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;

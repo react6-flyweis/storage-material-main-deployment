@@ -1,9 +1,8 @@
 import axios from "axios";
-
-const baseURL = process.env.NEXT_PUBLIC_API_URL ?? "";
+import { getRestApiBaseUrl } from "@/lib/rest-api-base";
 
 export const api = axios.create({
-  baseURL,
+  baseURL: getRestApiBaseUrl(),
   headers: {
     "Content-Type": "application/json",
   },

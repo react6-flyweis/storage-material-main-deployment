@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 import { useState } from "react";
 import NumberStepper from "./NumberStepper";
 import {
@@ -76,7 +77,7 @@ export default function LeantosTab({
           </Select>
         </div>
 
-        <div className="flex gap-2 mt-auto">
+        <div className="hidden md:flex gap-2 mt-auto">
           <Button
             size="sm"
             onClick={() => onPrev?.()}
@@ -105,6 +106,7 @@ export default function LeantosTab({
           fill
           className="object-cover"
         />
+        <PreviewOverlay  />
       </div>
     </div>
   );

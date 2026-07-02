@@ -1,11 +1,12 @@
 import React from "react";
 import Container from "./Container";
+import WhyChooseUsMobile from "./WhyChooseUsMobile";
 
 export default function WhyChooseUs() {
   const items = [
     {
       title: "Engineered Strength",
-      desc: "Every building is custom-engineered—not one-size-fits-all.",
+      desc: "Built to meet local building codes and project requirements.",
     },
     {
       title: "Instant, Transparent Quotes",
@@ -30,27 +31,41 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-16 bg-slate-900 text-white">
-      <Container className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-bold">Why Choose Us</h2>
-        <p className="mt-2 text-slate-400 text-lg">What Sets Us Apart</p>
-      </Container>
+    <>
+      {/* Mobile View - Matches the provided design */}
+      <div className="md:hidden">
+        <WhyChooseUsMobile />
+      </div>
 
-      <Container as="div">
-        <div className="max-w-6xl px-6 mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {items.map((it) => (
-            <div
-              key={it.title}
-              className="p-8 bg-slate-700/60 rounded-md shadow-sm"
-            >
-              <h3 className="text-xl font-semibold">{it.title}</h3>
-              <p className="mt-4 text-sm text-slate-200 leading-relaxed">
-                {it.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
+      {/* Desktop View - Restored and unchanged */}
+      <section className="relative hidden md:block py-24 bg-[#272C42] text-white">
+        <Container as="div">
+          <div className="text-center mb-24">
+            <h2 className="font-['Inter'] font-bold text-[36px] md:text-[48px] leading-[58px] mb-4">
+              Why Choose Us
+            </h2>
+            <p className="font-['Inter'] font-bold text-[24px] md:text-[36px] leading-[44px] text-white/55">
+              What Sets Us Apart
+            </p>
+          </div>
+
+          <div className="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {items.map((it) => (
+              <div
+                key={it.title}
+                className="bg-white/15 rounded-[14px] p-10 md:p-14 flex flex-col items-center justify-center text-center gap-6"
+              >
+                <h3 className="font-['Inter'] font-bold text-[28px] md:text-[32px] leading-[39px]">
+                  {it.title}
+                </h3>
+                <p className="font-['Inter'] font-normal text-[18px] md:text-[24px] leading-[32px] md:leading-[40px] text-[#EDF1F4]">
+                  {it.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

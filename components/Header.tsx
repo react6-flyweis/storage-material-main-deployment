@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import theSteelLogo from "@/assets/steel-building-depot-logo-dark.png";
+import theSteelLogo from "@/assets/logo/logo2.svg";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import Container from "./Container";
@@ -35,7 +35,7 @@ export default function Header() {
             className="flex items-center gap-3"
           >
             <Image
-              className="max-h-11 w-auto"
+              className="h-8 w-auto"
               src={theSteelLogo}
               alt="Steel Building Depot Logo"
             />
@@ -44,7 +44,7 @@ export default function Header() {
 
         <div className="flex items-center gap-8">
           {/* Center: Nav */}
-          <nav className="hidden md:flex items-center gap-12">
+          <nav className="hidden md:flex items-center gap-12  font-medium">
             {navItems.map((item) => {
               const active = pathname === item.href;
               return (
@@ -52,7 +52,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "text-sm font-medium hover:text-primary transition-colors",
+                    "text-md font-medium hover:text-primary transition-colors",
                     active ? "text-primary" : "text-white/90"
                   )}
                 >

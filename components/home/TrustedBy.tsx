@@ -17,12 +17,16 @@ const logos = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12];
 export default function TrustedBy() {
   return (
     <section className="py-12 pb-8">
-      <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">
-        <span className="text-primary">Trusted by</span>
-        <span className="ml-3 text-foreground font-semibold">
-          thousands of homeowners, farmers & businesses.
-        </span>
-      </h2>
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-[22px] md:text-3xl font-extrabold tracking-tight text-left md:text-center mb-10 leading-[1.2]">
+          <span className="text-primary">Trusted by</span>
+          <span className="text-foreground">
+            {" "}thousands of <br className="md:hidden" />
+            homeowners, farmers & <br className="md:hidden" />
+            businesses.
+          </span>
+        </h2>
+      </div>
       <div className="marquee overflow-hidden relative">
         <div className="marquee__inner flex items-center gap-10 will-change-transform animate-marquee">
           {logos.concat(logos).map((logo, idx) => (

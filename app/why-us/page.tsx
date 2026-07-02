@@ -3,6 +3,7 @@ import OurPromise from "@/components/home/OurPromise";
 import Testimonials from "@/components/home/Testimonials";
 import WhyUsHero from "@/components/WhyUsHero";
 import WhyChooseComparison from "@/components/WhyChooseComparison";
+import ScrollReveal from "@/components/ScrollReveal";
 
 import dreamBuildingImg from "@/assets/dream-building-why-us.png";
 import Header from "@/components/Header";
@@ -14,8 +15,15 @@ export default function Page() {
       <Header />
       <WhyUsHero />
       <OurPromise />
-      <WhyChooseComparison />
-      <Testimonials />
+      
+      <ScrollReveal>
+        <WhyChooseComparison />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
+
       <DreamBuilding image={dreamBuildingImg} />
       <Footer />
     </>

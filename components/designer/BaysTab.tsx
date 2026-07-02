@@ -2,6 +2,7 @@ import designerBaysImg from "@/assets/designer/designer-bays.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 
 type TabNavProps = {
   onPrev?: () => void;
@@ -21,7 +22,7 @@ export default function BaysTab({
       <div className="order-2 md:order-1 w-full md:w-[360px] bg-secondary p-6 overflow-y-auto pb-28 md:pb-6 flex flex-col min-h-[45vh] md:min-h-0">
         <h2 className="text-lg font-semibold mb-2 text-white">Bays</h2>
 
-        <div className="flex gap-2 mt-auto">
+        <div className="hidden md:flex gap-2 mt-auto">
           <Button
             size="sm"
             onClick={() => onPrev?.()}
@@ -50,6 +51,7 @@ export default function BaysTab({
           fill
           className="object-cover"
         />
+        <PreviewOverlay />
       </div>
     </div>
   );

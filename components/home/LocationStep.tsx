@@ -4,6 +4,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -20,11 +21,11 @@ export function LocationStep({ form, onNext, onBack }: LocationStepProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-4">
-        <h3 className="text-2xl font-bold mb-2 text-center max-w-sm mx-auto">
+        <h3 className="text-3xl font-bold mb-2 text-center max-w-5xl mx-auto">
           Where will your new building be located?
         </h3>
 
-        <p className="text-center text-muted-foreground mb-6 px-4 max-w-md mx-auto">
+        <p className="text-center text-muted-foreground mb-8 px-4 max-w-2xl mx-auto text-lg leading-relaxed">
           Where will your new building be located? This is the location where
           the building will be erected. Please be accurate, as the location
           impacts the building codes and restrictions, which impacts the cost.
@@ -35,12 +36,13 @@ export function LocationStep({ form, onNext, onBack }: LocationStepProps) {
           name="postalCode"
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-center">Zip or Postal Code <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <div className="flex justify-center">
                   <Input
                     {...field}
                     placeholder="Zip or Postal Code"
-                    className="w-72 h-12 py-4 px-6 rounded bg-gray-100 text-center placeholder:text-muted-foreground border-none"
+                    className="w-[400px] h-16 py-4 px-3 text-2xl font-medium rounded-lg bg-gray-100 text-center placeholder:text-muted-foreground placeholder:text-2xl border-none"
                   />
                 </div>
               </FormControl>

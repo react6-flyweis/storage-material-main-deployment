@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "../ui/button";
-
+import { motion, Variants } from "framer-motion";
 import garageImg from "@/assets/buildings/garage.png";
 import workshopImg from "@/assets/buildings/workshop.png";
 import bardominiusImg from "@/assets/buildings/bardominius.png";
@@ -67,13 +67,28 @@ const items: BuildingType[] = [
   },
 ];
 
+const cardVariants: Variants = {
+  hidden: (idx: number) => ({ 
+    opacity: 0, 
+    x: idx % 2 === 0 ? -100 : 100 
+  }),
+  visible: (idx: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.8,
+      delay: (idx % 3) * 0.15,
+      ease: "easeOut",
+    },
+  }),
+};
+
 export default function Buildings() {
   // const { data: items = [], isLoading, isError } = useBuildingTypes();
-
   const [isLoading, isError] = [false, false]; // --- MOCK ---
 
   return (
-    <section className="relative py-16 bg-secondary text-white">
+    <section className="relative py-16 bg-secondary text-white overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-0"
@@ -108,7 +123,20 @@ export default function Buildings() {
               No building types available.
             </div>
           ) : (
-            items.map((it) => <BuildingCard key={it._id} item={it} />)
+            items.map((it, idx) => (
+              <motion.div
+                key={it._id}
+                custom={idx}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={cardVariants}
+                style={{ willChange: "transform, opacity" }}
+                className="w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-[370px]"
+              >
+                <BuildingCard item={it} />
+              </motion.div>
+            ))
           )}
         </Container>
 
@@ -126,7 +154,7 @@ export default function Buildings() {
 
 function BuildingCard({ item }: { item: BuildingType }) {
   return (
-    <article className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-xl bg-card/10 border border-white/5 w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-[370px]">
+    <article className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-xl bg-card/10 border border-white/5 h-full w-full">
       <div className="flex items-center justify-center shrink-0 w-16 h-16 sm:w-24 sm:h-24 rounded overflow-hidden">
         <img
           src={item.image}

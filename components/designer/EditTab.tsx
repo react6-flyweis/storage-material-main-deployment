@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 
 type TabNavProps = {
   onPrev?: () => void;
@@ -113,7 +114,7 @@ export default function EditTab({
           />
         </div>
 
-        <div className="mt-8 flex gap-2">
+        <div className="hidden md:flex mt-8 gap-2">
           <Button
             size="sm"
             onClick={() => onPrev?.()}
@@ -142,6 +143,7 @@ export default function EditTab({
           fill
           className="object-cover"
         />
+        <PreviewOverlay />
       </div>
     </div>
   );

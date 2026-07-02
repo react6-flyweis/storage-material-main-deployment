@@ -12,6 +12,7 @@ import prop9 from "@/assets/designer/prop-9.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 import { useState } from "react";
 import SimpleQuoteDialog from "./SimpleQuoteDialog";
 
@@ -146,6 +147,7 @@ export default function PropsTab({
           fill
           className="object-cover"
         />
+        <PreviewOverlay />
       </div>
     </div>
   );

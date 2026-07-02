@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 import { useState } from "react";
 import NumberStepper from "./NumberStepper";
 import { Switch } from "@/components/ui/switch";
@@ -71,6 +72,7 @@ export default function MezzanineTab({
           fill
           className="object-cover"
         />
+        <PreviewOverlay />
       </div>
     </div>
   );

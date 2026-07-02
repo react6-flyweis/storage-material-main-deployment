@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 import googleBusinessLogo from "@/assets/home/google-business.png";
 import bbbLogo from "@/assets/home/bbb.png";
@@ -42,7 +44,7 @@ export default function BuildingForm({
 }) {
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState<Partial<FullBuildingFormData>>({});
-  const [phone, setPhone] = useState<string>("+00000000000");
+  const [phone, setPhone] = useState<string>("+1 888-868-8680");
 
   useEffect(() => {
     let mounted = true;
@@ -52,9 +54,6 @@ export default function BuildingForm({
         if (!res.ok) return;
         const json = await res.json();
         const cd = json?.data ?? null;
-        const p =
-          cd?.phone ?? cd?.customerCarePhone ?? cd?.customerCarePhone ?? null;
-        if (p && mounted) setPhone(p);
       } catch (e) {
         // ignore and keep fallback
       }
@@ -68,7 +67,6 @@ export default function BuildingForm({
   const totalSteps = 6;
   const progressPercentage = `${(step / totalSteps) * 100}%`;
 
-  // Step 1: Building Type Form
   const buildingTypeForm = useForm<BuildingTypeFormData>({
     resolver: zodResolver(buildingTypeSchema),
     defaultValues: {
@@ -76,7 +74,6 @@ export default function BuildingForm({
     },
   });
 
-  // Step 2: Dimensions Form
   const dimensionsForm = useForm<DimensionsFormData>({
     resolver: zodResolver(dimensionsSchema),
     defaultValues: {
@@ -87,7 +84,6 @@ export default function BuildingForm({
     },
   });
 
-  // Step 3: Location Form
   const locationForm = useForm<LocationFormData>({
     resolver: zodResolver(locationSchema),
     defaultValues: {
@@ -95,7 +91,6 @@ export default function BuildingForm({
     },
   });
 
-  // Step 4: Name Form
   const nameForm = useForm<NameFormData>({
     resolver: zodResolver(nameSchema),
     defaultValues: {
@@ -104,16 +99,15 @@ export default function BuildingForm({
     },
   });
 
-  // Step 5: Contact Form
   const contactForm = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
       email: formData.email || "",
+      countryCode: formData.countryCode || "+1",
       phoneNumber: formData.phoneNumber || "",
     },
   });
 
-  // Step navigation handlers
   const handleBuildingTypeNext = (data: BuildingTypeFormData) => {
     setFormData((prev) => ({ ...prev, ...data }));
     setStep(2);
@@ -135,22 +129,18 @@ export default function BuildingForm({
   };
 
   const handleContactSubmit = async (data: ContactFormData) => {
-    // Build final payload and send via React Query mutation
     const finalData = {
       ...formData,
       ...data,
     } as Partial<FullBuildingFormData> & ContactFormData;
     setFormData(finalData);
-    // ensure UI shows submitting state immediately
     setSubmissionStatus("loading");
     try {
       await sendQuote(finalData);
     } catch (e) {
-      // sendQuote already handles errors and updates state
     }
   };
 
-  // mutation state for UI
   const [submissionStatus, setSubmissionStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -162,7 +152,18 @@ export default function BuildingForm({
   const sendQuote = async (
     payload: Partial<FullBuildingFormData> & ContactFormData
   ) => {
-    // map our form keys to the expected API payload keys
+    let formattedPhone = (payload.phoneNumber as string).replace(/[^0-9+]/g, "");
+    if (!formattedPhone.startsWith("+")) {
+      if (formattedPhone.length === 10) {
+        formattedPhone = "+1" + formattedPhone;
+      } else if (
+        formattedPhone.length === 11 &&
+        formattedPhone.startsWith("1")
+      ) {
+        formattedPhone = "+" + formattedPhone;
+      }
+    }
+
     const apiPayload = {
       buildingTypeId: (payload.buildingType as string) || "",
       width: payload.width || "",
@@ -173,7 +174,7 @@ export default function BuildingForm({
       firstName: payload.firstName || "",
       lastName: payload.lastName || "",
       email: payload.email || "",
-      phoneNumber: payload.phoneNumber || "",
+      phoneNumber: formattedPhone,
     };
 
     try {
@@ -198,15 +199,17 @@ export default function BuildingForm({
 
   return (
     <div className="relative flex flex-col rounded-xl overflow-hidden h-full">
-      <div className="flex-1 p-5 max-w-xl mx-auto flex flex-col items-center justify-center">
-        {/* logos: shown for steps 1-5, hidden on confirmation (step 6) */}
+      <div className={cn(
+        "flex-1 p-5 mx-auto flex flex-col items-center justify-center w-full transition-all duration-500",
+        (step === 2 || step === 3 || step === 4 || step === 5) ? "max-w-3xl" : "max-w-xl"
+      )}>
         {step !== 6 && (
-          <div className="flex gap-6 mb-5 items-center">
+          <div className="flex gap-3 md:gap-6 mb-5 items-center w-full">
             <div className="flex-1 flex items-center justify-center">
               <Image
                 src={googleBusinessLogo}
                 alt="Google Business Logo"
-                className="max-h-16 object-contain"
+                className="max-h-10 md:max-h-16 object-contain"
               />
             </div>
 
@@ -214,7 +217,7 @@ export default function BuildingForm({
               <Image
                 src={bbbLogo}
                 alt="Better Business Bureau Logo"
-                className="max-h-16 object-contain"
+                className="max-h-10 md:max-h-16 object-contain"
               />
             </div>
 
@@ -222,75 +225,79 @@ export default function BuildingForm({
               <Image
                 src={iasLogo}
                 alt="IAS Logo"
-                className="max-h-16 object-contain"
+                className="max-h-10 md:max-h-16 object-contain"
               />
             </div>
           </div>
         )}
 
-        {/* Step 1: Building Type */}
-        {step === 1 && (
-          <BuildingTypeStep
-            form={buildingTypeForm}
-            onNext={handleBuildingTypeNext}
-          />
-        )}
+        <div className="w-full relative overflow-visible flex flex-col items-center min-h-[350px] justify-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
+              {step === 1 && (
+                <BuildingTypeStep
+                  form={buildingTypeForm}
+                  onNext={handleBuildingTypeNext}
+                />
+              )}
 
-        {/* Step 2: Dimensions */}
-        {step === 2 && (
-          <DimensionsStep
-            form={dimensionsForm}
-            onNext={handleDimensionsNext}
-            onBack={goBack}
-            isDialog={isDialog}
-          />
-        )}
+              {step === 2 && (
+                <DimensionsStep
+                  form={dimensionsForm}
+                  onNext={handleDimensionsNext}
+                  onBack={goBack}
+                  isDialog={isDialog}
+                />
+              )}
 
-        {/* Step 3: Location */}
-        {step === 3 && (
-          <LocationStep
-            form={locationForm}
-            onNext={handleLocationNext}
-            onBack={goBack}
-          />
-        )}
+              {step === 3 && (
+                <LocationStep
+                  form={locationForm}
+                  onNext={handleLocationNext}
+                  onBack={goBack}
+                />
+              )}
 
-        {/* Step 4: Name */}
-        {step === 4 && (
-          <NameStep form={nameForm} onNext={handleNameNext} onBack={goBack} />
-        )}
+              {step === 4 && (
+                <NameStep form={nameForm} onNext={handleNameNext} onBack={goBack} />
+              )}
 
-        {/* Step 5: Contact */}
-        {step === 5 && (
-          <ContactStep
-            form={contactForm}
-            onSubmit={handleContactSubmit}
-            onBack={goBack}
-            isSubmitting={submissionStatus === "loading"}
-          />
-        )}
+              {step === 5 && (
+                <ContactStep
+                  form={contactForm}
+                  onSubmit={handleContactSubmit}
+                  onBack={goBack}
+                  isSubmitting={submissionStatus === "loading"}
+                />
+              )}
 
-        {/* Step 6: Confirmation / submission status */}
-        {step === 6 && (
-          <div className="w-full max-w-xl mx-auto text-center">
-            <ConfirmationStep
-              isDialog={isDialog}
-              status={submissionStatus}
-              message="A Building Specialist is looking at which Clearance Buildings we have in stock that meet the wind, snow and seismic loads for your exact location. They will be in touch within 1 business day with your free quote."
-              // message={serverMessage}
-              onBack={() => {
-                setSubmissionStatus("idle");
-                // close the dilaog if in dialog mode, else go back to step 1
-                if (isDialog) {
-                  // assuming there's a prop or context to close the dialog
-                  onClose?.();
-                } else {
-                  setStep(1);
-                }
-              }}
-            />
-          </div>
-        )}
+              {step === 6 && (
+                <div className="w-full max-w-xl mx-auto text-center">
+                  <ConfirmationStep
+                    isDialog={isDialog}
+                    status={submissionStatus}
+                    message="A Building Specialist is looking at which Clearance Buildings we have in stock that meet the wind, snow and seismic loads for your exact location. They will be in touch within 1 business day with your free quote."
+                    onBack={() => {
+                      setSubmissionStatus("idle");
+                      if (isDialog) {
+                        onClose?.();
+                      } else {
+                        setStep(1);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {(isDialog || step === 1) && (
           <div className="w-full">
@@ -313,7 +320,6 @@ export default function BuildingForm({
         )}
       </div>
 
-      {/* Form progress bar: fixed for all steps */}
       <div className="bg-gray-100 h-3 w-full">
         <div
           className="bg-linear-to-r from-[#003880] to-primary h-full transition-all duration-500 rounded-r-full"

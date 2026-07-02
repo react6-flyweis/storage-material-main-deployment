@@ -1,7 +1,6 @@
 "use client";
 
-// import Image from "next/image";
-
+import { motion, Variants } from "framer-motion";
 import useProjects from "@/lib/hooks/useProjects";
 import g1 from "@/assets/gallery/gallery-1.png";
 import g2 from "@/assets/gallery/gallery-2.png";
@@ -23,24 +22,7 @@ import g17 from "@/assets/gallery/gallery-17.png";
 import g18 from "@/assets/gallery/gallery-18.png";
 
 const images = [
-  g1,
-  g2,
-  g3,
-  g4,
-  g5,
-  g6,
-  g7,
-  g8,
-  g9,
-  g10,
-  g11,
-  g12,
-  g13,
-  g14,
-  g15,
-  g16,
-  g17,
-  g18,
+  g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17, g18,
 ];
 
 // repeating pattern: 2:2, 3:1, 2:2, 1:3, ...
@@ -51,13 +33,21 @@ const pattern = [
   [1, 3],
 ];
 
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (idx: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      delay: (idx % 6) * 0.1, // Staggering by groups to keep it fluid
+      ease: "easeOut",
+    },
+  }),
+};
+
 export default function Gallery() {
-  // const { data: projects = [], isLoading } = useProjects();
-
-  // const items = isLoading ? new Array(8).fill(null) : projects;
-
   const items = images.map((img) => ({ image: img.src }));
-
   const isLoading = false;
 
   return (
@@ -74,8 +64,7 @@ export default function Gallery() {
               ? pattern[pairIndex][0]
               : pattern[pairIndex][1];
 
-            // Always use a single column on mobile, and apply span on sm+.
-            const baseClass = "col-span-1"; // mobile: single image per row
+            const baseClass = "col-span-1";
             const smClass =
               span === 1
                 ? "sm:col-span-1"
@@ -86,22 +75,27 @@ export default function Gallery() {
             const spanClass = `${baseClass} ${smClass}`;
 
             return (
-              <div
+              <motion.div
                 key={idx}
+                custom={idx}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={itemVariants}
                 className={`${spanClass} mb-0 overflow-hidden rounded-lg bg-gray-50`}
               >
-                <div className="w-full h-64 md:h-96  overflow-hidden">
+                <div className="w-full h-64 md:h-96 overflow-hidden">
                   {isLoading ? (
                     <div className="w-full h-full bg-gray-200/70 animate-pulse rounded-lg" />
                   ) : (
                     <img
                       src={project.image}
                       alt={`Project ${idx + 1}`}
-                      className="w-full h-full object-cover rounded-lg transition-transform hover:scale-105"
+                      className="w-full h-full object-cover rounded-lg transition-transform hover:scale-105 duration-500"
                     />
                   )}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

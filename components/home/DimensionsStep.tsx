@@ -37,25 +37,24 @@ export function DimensionsStep({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="w-full space-y-4">
-        <h3 className="text-2xl font-bold mb-1 text-center">
+        <h3 className="text-2xl font-bold mb-5 text-center ">
           Building Dimensions
         </h3>
 
         {isDialog ? (
-          <div className="grid grid-cols-3 gap-4 items-center">
-            <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1.2fr_2.5fr_1.2fr] gap-6 md:gap-12 items-center">
+            <div className="space-y-4 md:space-y-6">
               <FormField
                 control={form.control}
                 name="width"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="sr-only">Width</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                  <FormItem className="relative z-20">
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700">Width <span className="text-red-500">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gray-100 text-black border-none relative z-30 cursor-pointer">
                           <SelectValue
                             placeholder="Width"
-                            className="text-black"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -83,14 +82,13 @@ export function DimensionsStep({
                 control={form.control}
                 name="length"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="sr-only">Length</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                  <FormItem className="relative z-20">
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700">Length <span className="text-red-500">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gray-100 text-black border-none relative z-30 cursor-pointer">
                           <SelectValue
                             placeholder="Length"
-                            className="text-black"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -107,34 +105,26 @@ export function DimensionsStep({
               />
             </div>
 
-            <div className="flex justify-center">
-              <div
-                className={cn(
-                  "relative",
-                  isDialog ? "max-w-52 max-h-60" : "w-44 h-28"
-                )}
-              >
+            <div className="flex justify-center items-center order-first md:order-none mb-4 md:mb-0">
                 <Image
                   src={isDialog ? dimension2Img : buildingDimensionsImg}
                   alt="Building Dimensions"
-                  className="object-contain"
+                  className="object-contain w-3/4 md:w-full h-auto scale-105 md:scale-110"
                 />
-              </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 md:space-y-6">
               <FormField
                 control={form.control}
                 name="height"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="sr-only">Height</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                  <FormItem className="relative z-20">
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700">Height <span className="text-red-500">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gray-100 text-black border-none relative z-30 cursor-pointer">
                           <SelectValue
                             placeholder="Height"
-                            className="text-black"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -161,14 +151,13 @@ export function DimensionsStep({
                 control={form.control}
                 name="roofPitch"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="sr-only">Roof Pitch</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                  <FormItem className="relative z-20">
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700">Roof Pitch <span className="text-red-500">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gray-100 text-black border-none relative z-30 cursor-pointer">
                           <SelectValue
                             placeholder="Roof Pitch"
-                            className="text-black"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -192,12 +181,12 @@ export function DimensionsStep({
           </div>
         ) : (
           <>
-            <div className="w-full flex justify-center mb-4">
-              <div className="max-h-24 relative">
+            <div className="w-full flex justify-center mb-6">
+              <div className="max-h-48 relative w-full flex justify-center">
                 <Image
                   src={buildingDimensionsImg}
                   alt="Building Dimensions"
-                  className="object-contain max-h-28"
+                  className="object-contain max-h-56 w-auto scale-105"
                 />
               </div>
             </div>
@@ -208,10 +197,10 @@ export function DimensionsStep({
                 name="width"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Width</FormLabel>
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-left w-full">Width <span className="text-red-500">*</span></FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-14 text-lg font-semibold bg-gray-100 text-black border-none">
                           <SelectValue
                             placeholder="Width"
                             className="text-black"
@@ -243,10 +232,10 @@ export function DimensionsStep({
                 name="length"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Length</FormLabel>
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-left w-full">Length <span className="text-red-500">*</span></FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-14 text-lg font-semibold bg-gray-100 text-black border-none">
                           <SelectValue
                             placeholder="Length"
                             className="text-black"
@@ -278,10 +267,10 @@ export function DimensionsStep({
                 name="height"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Height</FormLabel>
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-left w-full">Height <span className="text-red-500">*</span></FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                        <SelectTrigger className="w-full h-14 text-lg font-semibold bg-gray-100 text-black border-none">
                           <SelectValue
                             placeholder="Height"
                             className="text-black"
@@ -312,10 +301,10 @@ export function DimensionsStep({
                 name="roofPitch"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Roof Pitch</FormLabel>
+                    <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-left w-full">Roof Pitch <span className="text-red-500">*</span></FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="w-full border-none bg-gray-100 text-black">
+                        <SelectTrigger className="w-full h-14 text-lg font-semibold border-none bg-gray-100 text-black">
                           <SelectValue
                             placeholder="Roof Pitch"
                             className="text-black"

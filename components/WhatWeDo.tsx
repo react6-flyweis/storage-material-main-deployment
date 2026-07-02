@@ -22,11 +22,11 @@ export default function WhatWeDo() {
           What We Do
         </h2>
         <h3 className="text-2xl font-bold text-gray-900 mb-6">
-          Complete Steel Building Solutions
+          Complete Steel Building Solutions by Steel Building Depot
         </h3>
         <p className="text-lg text-gray-700 mb-6">
-          We design, manufacture, and deliver pre-engineered steel building
-          kits, customized for:
+          At Steel Building Depot, we design, manufacture and deliver
+          pre-engineered steel building kits customized for:
         </p>
 
         <ul className="list-disc list-inside text-center text-lg text-gray-700 space-y-2">

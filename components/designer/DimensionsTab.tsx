@@ -11,6 +11,7 @@ import {
 } from "../ui/select";
 import NumberStepper from "./NumberStepper";
 import { ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 
 type TabNavProps = {
   onPrev?: () => void;
@@ -33,9 +34,9 @@ export default function DimensionsTab({
 
   return (
     <div className="flex-1 flex flex-col h-full">
-      <div className="flex-1 flex items-center justify-center min-h-[50vh]">
+      <div className="flex-none md:flex-1 flex items-center justify-center h-[40vh] md:h-auto md:min-h-[50vh]">
         <div className="w-full max-w-7xl h-full">
-          <div className="relative h-full overflow-hidden shadow-xl">
+          <div className="relative h-full overflow-hidden shadow-xl md:rounded-lg">
             <Image
               src={designerDimensionsImg}
               alt="Designer dimensions"
@@ -43,11 +44,15 @@ export default function DimensionsTab({
               className="object-cover"
               priority
             />
+            <PreviewOverlay 
+              fontSize="clamp(1.5rem, 5vw, 2.5rem)"
+              width="min(631px, 90%)"
+            />
           </div>
         </div>
       </div>
 
-      <div className="bg-secondary p-5 min-h-[45vh] md:min-h-fit overflow-y-auto pb-28 md:pb-6">
+      <div className="bg-secondary p-4 md:p-6 flex-1 md:flex-none overflow-y-auto pb-24 md:pb-6">
         <div className="max-w-6xl mx-auto flex flex-col gap-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
             <div className="flex flex-col">

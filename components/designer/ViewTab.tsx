@@ -2,6 +2,7 @@ import Image from "next/image";
 import designerViewImg from "@/assets/designer/designer-view.png";
 import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
+import PreviewOverlay from "./PreviewOverlay";
 
 type TabNavProps = {
   onPrev?: () => void;
@@ -28,11 +29,12 @@ export default function ViewTab({
               className="object-cover"
               priority
             />
+            <PreviewOverlay />
           </div>
         </div>
       </div>
 
-      <div className="bg-secondary p-5 min-h-[35vh] md:min-h-fit flex items-center">
+      <div className="hidden md:flex bg-secondary p-5 min-h-fit items-center">
         <div className="max-w-6xl mx-auto flex justify-end w-full">
           <Button
             type="button"

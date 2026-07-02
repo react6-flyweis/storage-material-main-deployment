@@ -1,6 +1,7 @@
 import Container from "./Container";
 import Image from "next/image";
 import complianceBg from "@/assets/who-we-are.png";
+import ComplianceMobile from "./ComplianceMobile";
 
 export default function Compliance() {
   const complianceItems = [
@@ -12,77 +13,63 @@ export default function Compliance() {
   ];
 
   return (
-    <section className="relative bg-[#1e2a4a] py-16 md:py-24 overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={complianceBg}
-          alt="Compliance background"
-          fill
-          className="object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-[#1e2a4a]/70" />
+    <>
+      {/* Mobile View - Separate component, no background color */}
+      <div className="md:hidden">
+        <ComplianceMobile />
       </div>
 
-      <Container className="relative z-10">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            Commitment to Quality & Compliance
-          </h2>
-          <p className="text-gray-300 text-lg md:text-xl max-w-6xl px-6 mx-auto">
-            We adhere to strict quality standards and engineering practices to
-            ensure every building we deliver meets or exceeds industry
-            expectations.
-          </p>
+      {/* Desktop View - Restored exactly as it was */}
+      <section className="relative hidden md:block bg-[#1e2a4a] py-24 overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={complianceBg}
+            alt="Compliance background"
+            fill
+            className="object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1e2a4a] via-[#1e2a4a]/90 to-[#272C42]" />
         </div>
 
-        <div className="flex flex-col items-center gap-6 md:gap-8 max-w-6xl px-6 mx-auto">
-          {/* Row 1 - Left aligned */}
-          <div className="w-full flex justify-start">
-            <div className="bg-gradient-to-r from-white/40 to-transparent backdrop-blur-sm px-8 py-4 md:px-10 md:py-5 rounded hover:from-white/60 transition-colors">
-              <p className="text-white text-base md:text-lg font-medium text-center">
-                {complianceItems[0]}
-              </p>
-            </div>
+        <Container className="relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="font-['Inter'] font-bold text-[48px] text-white mb-6">
+              Quality and Compliance
+            </h2>
+            <p className="font-['Inter'] font-normal text-gray-300 text-xl max-w-4xl mx-auto leading-relaxed">
+              At Steel Building Depot, we follow strict engineering and quality
+              standards to ensure every building meets or exceeds industry
+              requirements.
+            </p>
           </div>
 
-          {/* Row 2 - Center */}
-          <div className="w-full flex justify-center">
-            <div className="bg-gradient-to-r from-white/40 to-transparent backdrop-blur-sm px-8 py-4 md:px-10 md:py-5 rounded hover:from-white/60 transition-colors">
-              <p className="text-white text-base md:text-lg font-medium text-center">
-                {complianceItems[1]}
-              </p>
-            </div>
-          </div>
+          <div className="flex flex-col gap-6 max-w-[1300px] mx-auto px-6">
+            {complianceItems.map((item, index) => {
+              // Logic for staggered alignment: Left, Center, Right, Center, Left
+              const alignments = [
+                "self-start",
+                "self-center",
+                "self-end",
+                "self-center",
+                "self-start",
+              ];
+              const alignment = alignments[index % alignments.length];
 
-          {/* Row 3 - Right aligned */}
-          <div className="w-full flex justify-end">
-            <div className="bg-gradient-to-r from-white/40 to-transparent backdrop-blur-sm px-8 py-4 md:px-10 md:py-5 rounded hover:from-white/60 transition-colors">
-              <p className="text-white text-base md:text-lg font-medium text-center">
-                {complianceItems[2]}
-              </p>
-            </div>
+              return (
+                <div
+                  key={index}
+                  className={`${alignment} w-full md:w-auto md:min-w-[660px] bg-gradient-to-l from-white/0 to-white/30 rounded-[14px] p-10 md:px-[73px] md:py-[43px] flex items-center justify-center backdrop-blur-sm`}
+                >
+                  <span className="font-['Inter'] font-bold text-[32px] text-white text-center">
+                    {item}
+                  </span>
+                </div>
+              );
+            })}
           </div>
-
-          {/* Row 4 - Center */}
-          <div className="w-full flex justify-center">
-            <div className="bg-gradient-to-r from-white/40 to-transparent backdrop-blur-sm px-8 py-4 md:px-10 md:py-5 rounded hover:from-white/60 transition-colors">
-              <p className="text-white text-base md:text-lg font-medium text-center">
-                {complianceItems[3]}
-              </p>
-            </div>
-          </div>
-
-          {/* Row 5 - Left aligned */}
-          <div className="w-full flex justify-start">
-            <div className="bg-gradient-to-r from-white/40 to-transparent backdrop-blur-sm px-8 py-4 md:px-10 md:py-5 rounded hover:from-white/60 transition-colors">
-              <p className="text-white text-base md:text-lg font-medium text-center">
-                {complianceItems[4]}
-              </p>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

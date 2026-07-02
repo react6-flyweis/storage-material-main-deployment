@@ -33,47 +33,73 @@ export default function SideMenu({
   className = "",
 }: SideMenuProps) {
   const isMobile = variant === "mobile";
-  const navBase = isMobile
-    ? "w-full px-3 py-3 bg-white/95 backdrop-blur border-t border-slate-200 shadow-lg overflow-x-auto"
-    : "pl-8 pt-4 pr-2";
-  const navClass = `${navBase} ${className}`.trim();
-  const listClass = isMobile ? "flex gap-2 min-w-max" : "flex flex-col gap-2";
-  const buttonBase = isMobile
-    ? "flex flex-col items-center justify-center rounded-lg border border-slate-200/70 bg-slate-50/60 text-[11px] py-2 px-3"
-    : "size-15 flex flex-col items-center justify-center rounded-lg shadow-sm focus:outline-none transition-colors";
 
-  return (
-    <nav aria-label="Designer side menu" className={navClass}>
-      <ul className={listClass}>
-        {items.map((it) => {
-          const isActive = active === it.key;
-          const activeStyles = isMobile
-            ? "border-blue-500 bg-blue-50 text-blue-600"
-            : "bg-gray-600 text-white";
-          const inactiveStyles = isMobile
-            ? "text-slate-600 hover:bg-white"
-            : "bg-gray-100 text-black hover:bg-gray-200";
-
-          return (
-            <li key={it.key} className={isMobile ? "shrink-0" : undefined}>
+  if (isMobile) {
+    return (
+      <nav 
+        className={`fixed bottom-0 left-0 right-0 z-[9999] bg-white/80 backdrop-blur-xl border-t border-slate-200/50 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)] ${className}`}
+      >
+        <div className="flex items-center justify-between px-2 overflow-x-auto no-scrollbar">
+          {items.map((it) => {
+            const isActive = active === it.key;
+            return (
               <button
+                key={it.key}
                 onClick={() => onChange?.(it.key)}
-                className={`${buttonBase} ${
-                  isActive ? activeStyles : inactiveStyles
+                className={`flex flex-col items-center justify-center min-w-[72px] py-3 transition-all duration-300 relative ${isActive ? "text-primary" : "text-slate-400"
                 }`}
-                aria-pressed={isActive}
-                title={it.label}
               >
-                <span className="mb-1">
+                {/* Active Indicator Bar */}
+                {isActive && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-b-full shadow-[0_2px_10px_rgba(37,99,235,0.3)]" />
+                )}
+                
+                <div className={`mb-1 transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`}>
                   <Image
                     src={it.icon}
-                    alt={`${it.label} icon`}
-                    width={isMobile ? 18 : 20}
-                    height={isMobile ? 18 : 20}
-                    className={!isMobile && isActive ? "filter invert" : ""}
+                    alt={it.label}
+                    width={22}
+                    height={22}
+                    className={isActive ? "" : "opacity-50 grayscale"}
                   />
+                </div>
+                <span className={`text-[10px] font-bold tracking-tight ${isActive ? "opacity-100" : "opacity-70"}`}>
+                  {it.label}
                 </span>
-                <span className="text-[10px] leading-none">{it.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    );
+  }
+
+  // Desktop Vertical Menu
+  return (
+    <nav aria-label="Designer side menu" className={`pl-8 pt-6 pr-2 h-full ${className}`}>
+      <ul className="flex flex-col gap-3">
+        {items.map((it) => {
+          const isActive = active === it.key;
+          return (
+            <li key={it.key}>
+              <button
+                onClick={() => onChange?.(it.key)}
+                className={`size-16 flex flex-col items-center justify-center rounded-2xl shadow-sm transition-all duration-300 cursor-pointer ${isActive
+                  ? "bg-primary text-white shadow-[0_8px_20px_rgba(37,99,235,0.25)] scale-105"
+                  : "bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+                  }`}
+                title={it.label}
+              >
+                <div className="mb-1">
+                  <Image
+                    src={it.icon}
+                    alt={it.label}
+                    width={24}
+                    height={24}
+                    className={isActive ? "filter invert brightness-0" : "opacity-70"}
+                  />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider">{it.label}</span>
               </button>
             </li>
           );

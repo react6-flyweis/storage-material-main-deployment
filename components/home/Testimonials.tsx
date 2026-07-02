@@ -6,60 +6,24 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import useTestimonials from "@/lib/hooks/useTestimonials";
-// import t1 from "@/assets/testimonial/testimonial-1.png";
-// import t2 from "@/assets/testimonial/testimonial-2.png";
-// import t3 from "@/assets/testimonial/testimonial-3.png";
-// import t4 from "@/assets/testimonial/testimonial-4.png";
-// import t5 from "@/assets/testimonial/testimonial-5.png";
-// import t6 from "@/assets/testimonial/testimonial-6.png";
+import quotesImg from "@/assets/quotes.png";
 
 import Container from "../Container";
 import { QuoteIcon } from "lucide-react";
 import * as React from "react";
 import autoScroll from "embla-carousel-auto-scroll";
-
-// const testimonials = [
-//   {
-//     id: 1,
-//     image: t4,
-//     text: "Steel Buildings delivered a high-quality prefabricated steel structure for our new workshop.",
-//     author: "John D., Farmer, Kansas",
-//   },
-//   {
-//     id: 2,
-//     image: t3,
-//     text: "Purchased a 30×40 steel building from The Storage Material, and the experience was excellent.",
-//     author: "John D., Farmer, Kansas",
-//   },
-//   {
-//     id: 3,
-//     image: t2,
-//     text: "I couldn't be happier with my Steel Building. The quality is fantastic.",
-//     author: "John D., Farmer, Kansas",
-//   },
-//   {
-//     id: 4,
-//     image: t1,
-//     text: "We purchased a storage building — best decision. Installation was smooth.",
-//     author: "John D., Farmer, Kansas",
-//   },
-//   {
-//     id: 5,
-//     image: t5,
-//     text: "The Container Cover quality is outstanding, and I'm thrilled with it.",
-//     author: "John D., Farmer, Kansas",
-//   },
-//   {
-//     id: 6,
-//     image: t6,
-//     text: "The Container Cover quality is outstanding, and I’m thrilled with it .",
-//   },
-// ];
+import Image from "next/image";
 
 export default function Testimonials() {
   const { data: testimonials = [], isLoading, isError } = useTestimonials();
 
-  const visible = testimonials;
+  const visible = React.useMemo(() => {
+    return testimonials.map((t) => ({
+      ...t,
+      title: t.title.replace(/Storage Material|Storage material|Mr Storage Material/gi, "Steel Building Depot"),
+      userName: t.userName.replace(/Storage Material|Storage material|Mr Storage Material/gi, "Steel Building Depot"),
+    }));
+  }, [testimonials]);
 
   // compute average rating and total count for dynamic header
   const { averageRating, totalReviews } = React.useMemo(() => {
@@ -86,29 +50,27 @@ export default function Testimonials() {
           What Our Customers Say
         </h2>
         <p className="mt-3 text-sm md:text-base text-white/80">
-          {averageRating}/5 Based on {totalReviews || "1,200+"} Reviews
+          {averageRating}/5 Based on {totalReviews}+ Reviews
         </p>
       </Container>
 
       <Container
-        className="py-6  mt-10"
+        className="py-6 mt-10"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
-        {/* On small screens: horizontal scroll (snap). On lg+: show 4 cards at once using basis classes. */}
         <Carousel
           opts={{ align: "start", loop: true }}
           plugins={[plugin]}
           className="w-full"
         >
-          <CarouselContent className="-ml-6">
+          <CarouselContent className="-ml-10 items-stretch">
             {isLoading ? (
-              // simple loading placeholders
               Array.from({ length: 4 }).map((_, i) => (
                 <CarouselItem
                   key={`loading-${i}`}
-                  className=" md:basis-1/2 lg:basis-[28%] "
+                  className="pl-10 md:basis-1/2 lg:basis-[30%]"
                 >
-                  <div className="animate-pulse bg-white/5 rounded-lg h-64" />
+                  <div className="bg-white/5 rounded-2xl h-full animate-pulse min-h-[400px]" />
                 </CarouselItem>
               ))
             ) : isError ? (
@@ -124,37 +86,52 @@ export default function Testimonials() {
                 return (
                   <CarouselItem
                     key={t._id}
-                    className=" md:basis-1/2 lg:basis-[28%] "
+                    className="pl-10 md:basis-1/2 lg:basis-[30%] h-full"
                   >
-                    <article className="bg-linear-to-b from-secondary to-white/5 rounded-lg shadow-lg overflow-hidden relative h-full flex gap-1">
-                      <div className="">
-                        <QuoteIcon className="text-white rotate-180 fill-white mt-8" />
+                    <article className="bg-slate-800/50 border border-white/5 rounded-2xl shadow-xl relative h-full flex flex-col group transition-all duration-300 hover:bg-slate-800">
+                      <div className="absolute -left-6 top-8 z-30 pointer-events-none hidden lg:block">
+                        <Image
+                          src={quotesImg}
+                          alt="quote"
+                          width={20}
+                          height={20}
+                          className="object-contain"
+                        />
                       </div>
-                      <div className=" flex flex-col">
+
+                      {/* Image Section */}
+                      <div className="relative aspect-video w-full overflow-hidden shrink-0 rounded-t-2xl">
                         {t.image ? (
-                          // use a plain <img> so external URLs work without next.config changes
                           <img
                             src={t.image}
                             alt={`testimonial ${t._id}`}
-                            className="w-full h-52 md:h-56 lg:h-44 xl:h-52 rounded-t-lg object-cover"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="w-full h-52 md:h-56 lg:h-44 xl:h-52 rounded-t-lg bg-white/5" />
-                        )}
-
-                        <div className="p-6 pt-5 flex-1 flex flex-col justify-between">
-                          <div>
-                            <p className="text-white mb-5 font-normal">
-                              {t.title}
-                            </p>
-
-                            <div className="mb-4 text-yellow-400" aria-hidden>
-                              ⭐⭐⭐⭐⭐
-                            </div>
+                          <div className="w-full h-full bg-slate-700 flex items-center justify-center">
+                            <QuoteIcon className="text-white/10 size-12" />
                           </div>
+                        )}
+                        <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 to-transparent" />
+                      </div>
 
-                          <div className="text-sm text-white font-semibold">
-                            — {t.userName}
+                      {/* Content Section */}
+                      <div className="p-6 flex-1 flex flex-col">
+                        <div className="flex-1">
+                          <div className="mb-3 text-yellow-400 text-sm" aria-hidden>
+                            {"★".repeat(5)}
+                          </div>
+                          <p className="text-white/90 font-medium leading-relaxed italic line-clamp-4 mb-6">
+                            "{t.title}"
+                          </p>
+                        </div>
+
+                        <div className="mt-auto border-t border-white/5 pt-4">
+                          <div className="text-white font-bold tracking-wide">
+                            {t.userName}
+                          </div>
+                          <div className="text-xs text-white/50 mt-1 uppercase tracking-wider">
+                            Verified Customer
                           </div>
                         </div>
                       </div>
@@ -164,8 +141,6 @@ export default function Testimonials() {
               })
             )}
           </CarouselContent>
-          {/* <CarouselPrevious />
-            <CarouselNext /> */}
         </Carousel>
       </Container>
     </section>
