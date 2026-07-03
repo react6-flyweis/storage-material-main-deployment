@@ -56,13 +56,13 @@ export default function GetAQuoteDialog({
           <Image
             src={tinShed}
             alt="Tin Shed"
-            className="absolute -top-96 -left-68 opacity-15  -rotate-225 h-full object-cover rounded-r-xl"
+            className="absolute -top-96 -left-68 opacity-15 -rotate-225 h-full object-cover rounded-r-xl pointer-events-none"
           />
           <BuildingForm isDialog={true} onClose={() => setOpen(false)} />
           <Image
             src={tinShed}
             alt="Tin Shed"
-            className="absolute -bottom-96 -right-64 opacity-15  -rotate-45 h-full object-cover rounded-r-xl"
+            className="absolute -bottom-96 -right-64 opacity-15 -rotate-45 h-full object-cover rounded-r-xl pointer-events-none"
           />
         </div>
       </DialogContent>
