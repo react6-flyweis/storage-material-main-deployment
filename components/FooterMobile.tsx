@@ -16,7 +16,7 @@ export default function FooterMobile() {
 
   return (
     <div className="lg:hidden bg-[#F8FAFC] text-foreground w-full font-roboto">
-      
+
       {/* USEFUL LINKS Section */}
       <div className="py-10 px-6 bg-white">
         <div className="mb-8 text-center">
@@ -29,11 +29,11 @@ export default function FooterMobile() {
             { name: "Building Types", href: "/building-types" },
             { name: "Why Us", href: "/why-us" },
             { name: "Projects", href: "/projects" },
-            { name: "About Us", href: "/about-us" },
+            { name: "About Us", href: "/about" },
           ].map((link, idx) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
+            <Link
+              key={link.name}
+              href={link.href}
               className={`flex items-center justify-between py-4 px-2 border-b border-gray-50 text-[#1E293B] font-semibold text-lg active:bg-gray-50 transition-colors ${idx === 0 ? "border-t" : ""}`}
             >
               {link.name}
@@ -82,7 +82,7 @@ export default function FooterMobile() {
             Subscribe for the latest building tips and special offers.
           </p>
         </div>
-        
+
         <div className="mb-10 max-w-sm mx-auto">
           <NewsletterForm />
         </div>
@@ -105,18 +105,18 @@ export default function FooterMobile() {
         {/* Floating elements placeholder - usually these would be separate components */}
         <div className="absolute right-6 -top-6">
           <button className="w-12 h-12 bg-black rounded-full flex items-center justify-center shadow-xl">
-             <ArrowRight className="text-white w-6 h-6 -rotate-90" />
+            <ArrowRight className="text-white w-6 h-6 -rotate-90" />
           </button>
         </div>
-        
-        <div className="absolute right-6 bottom-10">
+
+        {/* <div className="absolute right-6 bottom-10">
            <div className="w-14 h-14 bg-[#0065E6] rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0B1E3E]">
              <MessageCircle className="text-white w-7 h-7" />
            </div>
-        </div>
+        </div> */}
 
         <div className="mt-16 pt-8 border-t border-white/10 text-center">
-{/* <div className="flex items-center justify-center gap-4 text-sm font-medium text-white/70 mb-4">
+          {/* <div className="flex items-center justify-center gap-4 text-sm font-medium text-white/70 mb-4">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <span className="text-white/20">|</span>
             <Link href="/terms-of-services" className="hover:text-white transition-colors">Terms of Service</Link>
