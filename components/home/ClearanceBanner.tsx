@@ -17,14 +17,14 @@ export default function ClearanceBanner() {
         </div>
 
         {/* Right Section - Content */}
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 lg:px-12 py-10 md:py-4 bg-white gap-6 lg:gap-8">
-          <div className="flex flex-col gap-2 md:gap-3 text-center lg:text-left justify-center h-full">
+        <div className="flex-1 min-w-0 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 lg:px-12 py-10 md:py-4 bg-white gap-6 lg:gap-8">
+          <div className="flex flex-col items-center lg:items-start gap-2 md:gap-3 text-center lg:text-left justify-center h-full">
             {/* Heading Group */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6">
+            <div className="flex flex-col items-center sm:flex-row sm:flex-wrap sm:items-center justify-center lg:justify-start gap-2 sm:gap-4 lg:gap-6">
               <h3 className="text-[32px] sm:text-[40px] md:text-[44px] lg:text-[48px] xl:text-[56px] font-black bg-gradient-to-br from-[#0065E6] to-[#74ADF4] bg-clip-text text-transparent leading-none whitespace-nowrap">
                 70% OFF
               </h3>
-              <h4 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] font-bold text-[#1E1E1E] leading-tight whitespace-nowrap">
+              <h4 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] font-bold text-[#1E1E1E] leading-tight">
                 Clearance Inventory
               </h4>
             </div>
@@ -38,7 +38,7 @@ export default function ClearanceBanner() {
           {/* Button Container */}
           <div className="shrink-0 w-full lg:w-auto flex items-center h-full">
             <GetAQuoteDialog>
-              <Button 
+              <Button
                 className="w-full lg:w-[180px] xl:w-[220px] h-[50px] xl:h-[60px] bg-[#0065E6] hover:bg-[#0052b9] text-white text-[16px] xl:text-[18px] font-bold rounded-lg shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wide"
               >
                 Get a Quote
