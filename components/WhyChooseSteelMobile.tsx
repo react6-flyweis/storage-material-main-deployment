@@ -80,7 +80,7 @@ export default function WhyChooseSteelMobile() {
             
             {/* Subtle Blue Divider (except last item) */}
             {idx !== items.length - 1 && (
-              <div className="w-full h-px bg-blue-400/10 ml-16" />
+              <div className="h-px bg-blue-400/10 ml-16" />
             )}
           </div>
         ))}
