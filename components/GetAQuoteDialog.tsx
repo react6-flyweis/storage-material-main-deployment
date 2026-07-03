@@ -35,7 +35,7 @@ export default function GetAQuoteDialog({
       ) : (
         <DialogTrigger asChild>{children}</DialogTrigger>
       )}
-      <DialogContent className="sm:max-w-4xl p-0 rounded-xl border-0 h-[90vh] overflow-hidden">
+      <DialogContent className="sm:max-w-4xl p-0 rounded-xl border-0 max-h-[90vh] overflow-y-auto" showCloseButton={false}>
         <DialogTitle className="sr-only">Get a Quote</DialogTitle>
         <DialogDescription className="sr-only">
           Fill out the form below to get a custom quote for your steel building
@@ -44,7 +44,7 @@ export default function GetAQuoteDialog({
 
         {/* Fixed Close Button */}
         <DialogClose asChild>
-          <button 
+          <button
             className="absolute top-4 right-4 p-2 rounded-full transition-all z-[100] bg-black/60 text-white hover:bg-black/80 lg:bg-black/20 lg:text-white lg:hover:bg-black/40"
             aria-label="Close dialog"
           >
@@ -52,7 +52,7 @@ export default function GetAQuoteDialog({
           </button>
         </DialogClose>
 
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <Image
             src={tinShed}
             alt="Tin Shed"

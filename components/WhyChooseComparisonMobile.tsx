@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   ArrowRight,
   Check,
   Shield,
@@ -42,8 +42,8 @@ const MOBILE_ICON_MAP: Record<string, any> = {
 export default function WhyChooseComparisonMobile({ displayFeatures }: WhyChooseComparisonMobileProps) {
   return (
     <div className="md:hidden px-4 space-y-6 mt-8 font-['Inter']">
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <table className="w-full table-fixed border-collapse">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-x-auto">
+        <table className="w-full min-w-[500px] table-fixed border-collapse">
           <thead>
             <tr className="bg-[#F8FAFC] border-b border-gray-200">
               <th className="w-[40%] p-4 text-[13px] font-bold text-gray-900 border-r border-gray-200 text-center">
@@ -78,12 +78,12 @@ export default function WhyChooseComparisonMobile({ displayFeatures }: WhyChoose
                       </span>
                     </div>
                   </td>
-                  
+
                   {/* Steel Building Column */}
                   <td className="p-3 text-[12px] font-bold text-[#2563EB] text-center border-r border-gray-200 align-middle">
                     {f.steelBuilding}
                   </td>
-                  
+
                   {/* Wood/Concrete Column */}
                   <td className="p-3 text-[12px] font-medium text-gray-600 text-center align-middle">
                     {f.wordConcerte}
