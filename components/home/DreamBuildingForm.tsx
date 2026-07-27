@@ -23,6 +23,10 @@ import getErrorMessage from "@/lib/getErrorMessage";
 const dreamSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address"),
   countryCode: z.string().min(1, "Country code is required"),
   phone: z
     .string()
@@ -46,6 +50,7 @@ export default function DreamBuildingForm() {
     defaultValues: {
       firstName: "",
       lastName: "",
+      email: "",
       countryCode: "+1",
       phone: "",
       state: "",
@@ -61,7 +66,7 @@ export default function DreamBuildingForm() {
     setSuccess(undefined);
 
     // Format phone number
-    let rawPhone = data.phone.replace(/[^0-9]/g, "");
+    const rawPhone = data.phone.replace(/[^0-9]/g, "");
     let formattedPhone = data.countryCode + rawPhone;
 
     if (data.phone.startsWith("+")) {
@@ -71,6 +76,7 @@ export default function DreamBuildingForm() {
     const payload = {
       firstName: data.firstName,
       lastName: data.lastName,
+      email: data.email,
       phoneNumber: formattedPhone,
       state: data.state ?? "",
       city: data.city ?? "",
@@ -122,6 +128,20 @@ export default function DreamBuildingForm() {
                 <FormLabel className="text-sm">Last Name <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="Last Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField<DreamFormData>
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Email <span className="text-red-500">*</span></FormLabel>
+                <FormControl>
+                  <Input placeholder="Email Address" type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
