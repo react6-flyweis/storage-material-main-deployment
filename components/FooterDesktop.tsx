@@ -6,15 +6,22 @@ import theSteelLogo from "@/assets/logo/logo.svg";
 import footer1 from "@/assets/footer/footer1.png";
 import footer2 from "@/assets/footer/footer2.png";
 import footer3 from "@/assets/footer/footer3.png";
-import { MapPin, Phone, Mail, ChevronRight, Facebook, Linkedin } from "lucide-react";
+import { MapPin, Phone, Mail, ChevronRight, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react";
 import ContactUsDialog from "./ContactUsDialog";
+import { useContactDetails } from "@/lib/hooks/useContactDetails";
 
 export default function FooterDesktop() {
-  const address = `1995 G Ave, Red Oak, IA 51566`;
-  const phone = "888-868-8680";
-  const email = "info@steelbuildingdepot.com";
-  const fb = "https://www.facebook.com/profile.php?id=61582635286885";
-  const linkedin = "https://www.linkedin.com/company/113053006/admin/dashboard/";
+  const { data: contactData, isLoading } = useContactDetails();
+
+  const address = contactData?.address;
+  const phone = contactData?.phone;
+  const email = contactData?.email;
+  const fb = contactData?.fb;
+  const linkedin = contactData?.linkedIn || contactData?.linkedin;
+  const twitter = contactData?.twitter;
+  const instagram = contactData?.instagram;
+  const youtube = contactData?.youtube;
+  const copyRight = contactData?.copyRight;
 
   return (
     <div className="hidden lg:block bg-white text-foreground border-t border-gray-100 w-full">
@@ -36,7 +43,11 @@ export default function FooterDesktop() {
                 </div>
                 <div>
                   <h4 className="text-[#0065E6] font-bold text-[20px] font-roboto leading-none mb-1">ADDRESS:</h4>
-                  <p className="text-[#3A3A3A] font-roboto text-[20px] leading-relaxed">{address}</p>
+                  {isLoading ? (
+                    <div className="h-6 w-60 bg-gray-200 animate-pulse rounded mt-1" />
+                  ) : address ? (
+                    <p className="text-[#3A3A3A] font-roboto text-[20px] leading-relaxed">{address}</p>
+                  ) : null}
                 </div>
               </div>
 
@@ -46,9 +57,13 @@ export default function FooterDesktop() {
                 </div>
                 <div>
                   <h4 className="text-[#0065E6] font-bold text-[20px] font-roboto leading-none mb-1">TOLL FREE:</h4>
-                  <Link href={`tel:${phone.replace(/-/g, "")}`} className="text-[#3A3A3A] font-roboto text-[20px] hover:text-[#0065E6] transition-colors">
-                    {phone}
-                  </Link>
+                  {isLoading ? (
+                    <div className="h-6 w-40 bg-gray-200 animate-pulse rounded mt-1" />
+                  ) : phone ? (
+                    <Link href={`tel:${phone.replace(/[^0-9+]/g, "")}`} className="text-[#3A3A3A] font-roboto text-[20px] hover:text-[#0065E6] transition-colors">
+                      {phone}
+                    </Link>
+                  ) : null}
                 </div>
               </div>
 
@@ -58,9 +73,13 @@ export default function FooterDesktop() {
                 </div>
                 <div>
                   <h4 className="text-[#0065E6] font-bold text-[20px] font-roboto leading-none mb-1">EMAIL:</h4>
-                  <Link href={`mailto:${email}`} className="text-[#3A3A3A] font-roboto text-[20px] hover:text-[#0065E6] transition-colors break-words">
-                    {email}
-                  </Link>
+                  {isLoading ? (
+                    <div className="h-6 w-48 bg-gray-200 animate-pulse rounded mt-1" />
+                  ) : email ? (
+                    <Link href={`mailto:${email}`} className="text-[#3A3A3A] font-roboto text-[20px] hover:text-[#0065E6] transition-colors break-words">
+                      {email}
+                    </Link>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -129,12 +148,40 @@ export default function FooterDesktop() {
             </div>
             
             <div className="flex flex-col gap-6 pt-4 lg:pr-4">
-              <Link href={fb} target="_blank" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
-                <Facebook className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
-              </Link>
-              <Link href={linkedin} target="_blank" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
-                <Linkedin className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
-              </Link>
+              {isLoading ? (
+                <>
+                  <div className="w-[50px] h-[50px] rounded-full bg-gray-200 animate-pulse" />
+                  <div className="w-[50px] h-[50px] rounded-full bg-gray-200 animate-pulse" />
+                </>
+              ) : (
+                <>
+                  {fb && (
+                    <Link href={fb} target="_blank" rel="noopener noreferrer" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
+                      <Facebook className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
+                    </Link>
+                  )}
+                  {linkedin && (
+                    <Link href={linkedin} target="_blank" rel="noopener noreferrer" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
+                      <Linkedin className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
+                    </Link>
+                  )}
+                  {twitter && (
+                    <Link href={twitter} target="_blank" rel="noopener noreferrer" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
+                      <Twitter className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
+                    </Link>
+                  )}
+                  {instagram && (
+                    <Link href={instagram} target="_blank" rel="noopener noreferrer" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
+                      <Instagram className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
+                    </Link>
+                  )}
+                  {youtube && (
+                    <Link href={youtube} target="_blank" rel="noopener noreferrer" className="w-[50px] h-[50px] rounded-full bg-[#3D445C] flex items-center justify-center hover:bg-[#0065E6] transition-all group shadow-sm">
+                      <Youtube className="text-white w-6 h-6 transition-transform group-hover:scale-110" />
+                    </Link>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -144,15 +191,11 @@ export default function FooterDesktop() {
       <div className="bg-[#0B1E3E] py-6 text-white border-t border-white/10">
         <Container fluid className="max-w-[1512px] px-8 xl:px-12">
           <div className="flex items-center justify-center gap-8 text-base font-work-sans">
-            <p className="opacity-90">Copyright @2025 steelbuildingdepot.com All rights reserved.</p>
-            <div className="w-[1px] h-6 bg-white/30" />
-            {/* <Link href="/privacy-policy" className="opacity-90 hover:opacity-100 hover:underline transition-all">
-              Privacy Policy
-            </Link>
-            <div className="w-[1px] h-6 bg-white/30" />
-            <Link href="/terms-of-services" className="opacity-90 hover:opacity-100 hover:underline transition-all">
-              Terms of Services
-            </Link> */}
+            {isLoading ? (
+              <div className="h-5 w-72 bg-white/20 animate-pulse rounded" />
+            ) : (
+              <p className="opacity-90">{copyRight || ""}</p>
+            )}
           </div>
         </Container>
       </div>
