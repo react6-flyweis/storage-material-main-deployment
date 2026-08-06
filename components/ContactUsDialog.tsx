@@ -7,6 +7,9 @@ import {
   MapPin,
   Facebook,
   Linkedin,
+  Instagram,
+  Twitter,
+  Youtube,
   Clock,
   Unlock,
   X,
@@ -15,6 +18,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import contactImg from "@/assets/contactusPage/img1.png";
+import { useContactDetails } from "@/lib/hooks/useContactDetails";
+
 import {
   Dialog,
   DialogContent,
@@ -63,6 +68,17 @@ export default function ContactUsDialog({
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+
+  const { data: contactData, isLoading: contactLoading } = useContactDetails();
+
+  const phone = contactData?.phone;
+  const email = contactData?.email;
+  const address = contactData?.address;
+  const fb = contactData?.fb;
+  const linkedin = contactData?.linkedIn || contactData?.linkedin;
+  const twitter = contactData?.twitter;
+  const instagram = contactData?.instagram;
+  const youtube = contactData?.youtube;
 
   // Fix hydration mismatch by only rendering after mount
   React.useEffect(() => {
@@ -165,9 +181,13 @@ export default function ContactUsDialog({
                       <Phone className="size-[22px] text-white fill-white" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-['Roboto'] font-normal text-[16px]">
-                        +1 888-868-8680
-                      </span>
+                      {contactLoading ? (
+                        <div className="h-5 w-32 bg-white/20 animate-pulse rounded mb-1" />
+                      ) : phone ? (
+                        <Link href={`tel:${phone.replace(/[^0-9+]/g, "")}`} className="font-['Roboto'] font-normal text-[16px] hover:text-[#0065E6] transition-colors">
+                          {phone}
+                        </Link>
+                      ) : null}
                       <span className="text-[11px] text-white/40 uppercase tracking-widest font-semibold">
                         TOLL FREE
                       </span>
@@ -180,9 +200,13 @@ export default function ContactUsDialog({
                       <Mail className="size-[22px] text-white fill-white" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-['Roboto'] font-normal text-[16px] break-all">
-                        info@steelbuildingdepot.com
-                      </span>
+                      {contactLoading ? (
+                        <div className="h-5 w-40 bg-white/20 animate-pulse rounded mb-1" />
+                      ) : email ? (
+                        <Link href={`mailto:${email}`} className="font-['Roboto'] font-normal text-[16px] break-all hover:text-[#0065E6] transition-colors">
+                          {email}
+                        </Link>
+                      ) : null}
                       <span className="text-[11px] text-white/40 uppercase tracking-widest font-semibold">
                         SUPPORT
                       </span>
@@ -195,9 +219,13 @@ export default function ContactUsDialog({
                       <MapPin className="size-[22px] text-white fill-white" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-['Roboto'] font-normal text-[16px] leading-tight">
-                        1995 G Ave, <br /> Red Oak, IA 51566
-                      </span>
+                      {contactLoading ? (
+                        <div className="h-5 w-48 bg-white/20 animate-pulse rounded" />
+                      ) : address ? (
+                        <span className="font-['Roboto'] font-normal text-[16px] leading-tight">
+                          {address}
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -208,18 +236,65 @@ export default function ContactUsDialog({
                     FOLLOW US
                   </h3>
                   <div className="flex items-center gap-3">
-                    <Link
-                      href="https://www.facebook.com/profile.php?id=61582635286885"
-                      className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
-                    >
-                      <Facebook className="size-5 text-white" />
-                    </Link>
-                    <Link
-                      href="https://www.linkedin.com/company/113053006/"
-                      className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
-                    >
-                      <Linkedin className="size-5 text-white" />
-                    </Link>
+                    {contactLoading ? (
+                      <>
+                        <div className="w-[42px] h-[42px] rounded-full bg-white/20 animate-pulse" />
+                        <div className="w-[42px] h-[42px] rounded-full bg-white/20 animate-pulse" />
+                      </>
+                    ) : (
+                      <>
+                        {fb && (
+                          <Link
+                            href={fb}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
+                          >
+                            <Facebook className="size-5 text-white" />
+                          </Link>
+                        )}
+                        {linkedin && (
+                          <Link
+                            href={linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
+                          >
+                            <Linkedin className="size-5 text-white" />
+                          </Link>
+                        )}
+                        {twitter && (
+                          <Link
+                            href={twitter}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
+                          >
+                            <Twitter className="size-5 text-white" />
+                          </Link>
+                        )}
+                        {instagram && (
+                          <Link
+                            href={instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
+                          >
+                            <Instagram className="size-5 text-white" />
+                          </Link>
+                        )}
+                        {youtube && (
+                          <Link
+                            href={youtube}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-[42px] h-[42px] bg-[#0932A2]/40 border border-[#0065E6] rounded-full flex items-center justify-center transition-all hover:bg-[#0065E6]"
+                          >
+                            <Youtube className="size-5 text-white" />
+                          </Link>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
