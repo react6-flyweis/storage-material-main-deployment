@@ -1,12 +1,14 @@
-import React from "react";
 import Container from "@/components/Container";
+import getContactDetails from "@/lib/getContactDetails";
 
 export const metadata = {
   title: "Privacy Policy | Steel Building Depot",
   description: "Our privacy policy outlines how we handle and protect your data.",
 };
 
-export default function PrivacyPolicy() {
+export default async function PrivacyPolicy() {
+  const cd = await getContactDetails();
+
   return (
     <main className="min-h-screen bg-white py-20">
       <Container className="max-w-4xl">
@@ -18,7 +20,7 @@ export default function PrivacyPolicy() {
         </div>
 
         <div className="prose prose-slate max-w-none space-y-6 text-gray-700 font-roboto text-lg leading-relaxed">
-          <p className="font-medium italic">Last updated: May 7, 2024</p>
+          <p className="font-medium italic">Last updated: August 2026</p>
 
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-[#0065E6] font-work-sans">1. Introduction</h2>
@@ -62,12 +64,12 @@ export default function PrivacyPolicy() {
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-[#0065E6] font-work-sans">5. Contact Us</h2>
             <p>
-              If you have questions or comments about this policy, you may email us at info@steelbuildingdepot.com or by post to:
+              If you have questions or comments about this policy, you may email us at {cd?.email || "our support email"} or by post to:
             </p>
             <p className="font-medium">
-              Steel Building Depot<br />
-              1995 G Ave, Red Oak, IA 51566<br />
-              Toll Free: 888-868-8680
+              {cd?.name || "Steel Building Depot"}<br />
+              {cd?.address && <>{cd.address}<br /></>}
+              {cd?.phone && <>Toll Free: {cd.phone}</>}
             </p>
           </section>
         </div>
