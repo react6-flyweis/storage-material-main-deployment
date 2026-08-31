@@ -3,12 +3,12 @@
 // import Image from "next/image";
 // import heroHouse from "@/assets/home/hero-house-img.png";
 import { Button } from "../ui/button";
-import { 
-  BoxIcon, 
-  HandCoinsIcon, 
-  Shield as ShieldIcon, 
-  ScrollText as ScrollTextIcon, 
-  Globe as GlobeIcon 
+import {
+  BoxIcon,
+  HandCoinsIcon,
+  Shield as ShieldIcon,
+  ScrollText as ScrollTextIcon,
+  Globe as GlobeIcon,
 } from "lucide-react";
 import Container from "../Container";
 import Link from "next/link";
@@ -41,14 +41,19 @@ export default function HeroSection() {
           className="w-full h-full object-cover"
         />
         {/* layer */}
-        <div className="absolute inset-0 bg-linear-to-r from-black to-transparent" />
+        <div className="absolute  inset-0 bg-linear-to-t md:bg-linear-to-tr from-black md:to-70% to-transparent" />
       </div>
 
       {/* take up remaining space */}
       <Container className="flex min-h-112 flex-col flex-1 justify-end relative z-10 pb-10">
         <h1 className="text-3xl md:text-4xl max-w-lg font-bold leading-tight text-white">
           <Typewriter
-            segments={[{ text: "Why Thousands Trust Steel Building Depot",       className: "text-primary", }]}
+            segments={[
+              {
+                text: "Why Thousands Trust Steel Building Depot",
+                className: "text-primary",
+              },
+            ]}
             delay={40}
             className="leading-tight"
             onComplete={() => setHeadingDone(true)}
@@ -58,16 +63,17 @@ export default function HeroSection() {
         <p
           className={cn(
             "mt-2 text-sm md:text-base text-white max-w-lg transition-all duration-1000",
-            headingDone ? "opacity-100 animate-slide-in-left" : "opacity-0"
+            headingDone ? "opacity-100 animate-slide-in-left" : "opacity-0",
           )}
         >
-        We don’t just supply buildings—we deliver engineered solutions designed for durability, efficiency and long-term value.
+          We don’t just supply buildings—we deliver engineered solutions
+          designed for durability, efficiency and long-term value.
         </p>
 
         <div
           className={cn(
             "mt-6 flex gap-5 transition-all duration-1000 delay-300",
-            headingDone ? "opacity-100 animate-slide-in-left" : "opacity-0"
+            headingDone ? "opacity-100 animate-slide-in-left" : "opacity-0",
           )}
         >
           <Link href="/designer">
@@ -156,7 +162,9 @@ export default function HeroSection() {
               </div>
               <div>
                 <div className="text-xl font-semibold">Delivery</div>
-                <div className="text-xs text-white/70">Nationwide/Worldwide</div>
+                <div className="text-xs text-white/70">
+                  Nationwide/Worldwide
+                </div>
               </div>
             </div>
           </div>
