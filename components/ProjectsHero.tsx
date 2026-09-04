@@ -32,7 +32,7 @@ export default function ProjectsHero() {
         aria-hidden
       />
 
-      <div className="absolute bottom-0 w-full bg-linear-to-b h-full md:h-1/2 from-transparent to-black" />
+      {/* <div className="absolute bottom-0 w-full bg-linear-to-b h-full md:h-1/2 from-transparent to-black" /> */}
 
       <div className="relative z-10 flex items-center md:items-end justify-center h-full px-6 pb-12">
         <div className="text-center max-w-3xl mx-auto">
