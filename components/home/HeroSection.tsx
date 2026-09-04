@@ -41,7 +41,7 @@ export default function HeroSection() {
           className="w-full h-full object-cover"
         />
         {/* layer */}
-        <div className="absolute  inset-0 bg-linear-to-t md:bg-linear-to-tr from-black md:to-70% to-transparent" />
+        {/* <div className="absolute  inset-0 bg-linear-to-t md:bg-linear-to-tr from-black md:to-70% to-transparent" /> */}
       </div>
 
       {/* take up remaining space */}
