@@ -35,7 +35,7 @@ export default function WhyUsHero() {
         aria-hidden
       />
 
-      <div className="absolute bottom-0 w-full bg-linear-to-b h-full md:h-1/2 from-transparent via-black/30 to-black/80" />
+      {/* <div className="absolute bottom-0 w-full bg-linear-to-b h-full md:h-1/2 from-transparent via-black/30 to-black/80" /> */}
 
       <div className="relative z-10 flex items-center md:items-end justify-center h-full px-4 sm:px-6 pb-8 sm:pb-12">
         <div className="text-center w-full max-w-5xl">
