@@ -44,6 +44,8 @@ const STORAGE_CUSTOMER = "sbd_chat_customer_id";
 const STORAGE_PROFILE_NAME = "sbd_chat_profile_name";
 const STORAGE_PROFILE_EMAIL = "sbd_chat_profile_email";
 const STORAGE_PROFILE_PHONE = "sbd_chat_profile_phone";
+const STORAGE_PROFILE_COUNTRY = "sbd_chat_profile_country";
+const STORAGE_PROFILE_DIAL = "sbd_chat_profile_dial";
 
 function sortChatMessagesByTime(list: ChatMessage[]): ChatMessage[] {
   return [...list]
@@ -57,23 +59,39 @@ function sortChatMessagesByTime(list: ChatMessage[]): ChatMessage[] {
     .map(({ m }) => m);
 }
 
-function loadSavedProfile(): { name: string; email: string; phone: string } {
+function loadSavedProfile(): {
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  countryCode: string;
+} {
   try {
     return {
       name: localStorage.getItem(STORAGE_PROFILE_NAME) || "",
       email: localStorage.getItem(STORAGE_PROFILE_EMAIL) || "",
       phone: localStorage.getItem(STORAGE_PROFILE_PHONE) || "",
+      country: localStorage.getItem(STORAGE_PROFILE_COUNTRY) || "us",
+      countryCode: localStorage.getItem(STORAGE_PROFILE_DIAL) || "+1",
     };
   } catch {
-    return { name: "", email: "", phone: "" };
+    return { name: "", email: "", phone: "", country: "us", countryCode: "+1" };
   }
 }
 
-function persistProfile(name: string, email: string, phone: string) {
+function persistProfile(
+  name: string,
+  email: string,
+  phone: string,
+  country: string,
+  countryCode: string
+) {
   try {
     localStorage.setItem(STORAGE_PROFILE_NAME, name.trim());
     localStorage.setItem(STORAGE_PROFILE_EMAIL, email.trim());
     localStorage.setItem(STORAGE_PROFILE_PHONE, phone.trim());
+    localStorage.setItem(STORAGE_PROFILE_COUNTRY, country.trim());
+    localStorage.setItem(STORAGE_PROFILE_DIAL, countryCode.trim());
   } catch {
     /* private mode */
   }
@@ -96,6 +114,16 @@ function isEmailOk(email: string) {
 
 function phoneDigitsCount(phone: string) {
   return String(phone || "").replace(/\D/g, "").length;
+}
+
+function stripDialCode(phone: string, countryCode?: string): string {
+  const digits = String(phone || "").replace(/\D/g, "");
+  if (!countryCode) return digits;
+  const codeDigits = countryCode.replace(/\D/g, "");
+  if (codeDigits && digits.startsWith(codeDigits)) {
+    return digits.slice(codeDigits.length);
+  }
+  return digits;
 }
 
 function isStoredProfileComplete(saved: {
@@ -171,12 +199,15 @@ export default function AlexChatDialog({
   const [gateName, setGateName] = useState("");
   const [gateEmail, setGateEmail] = useState("");
   const [gatePhone, setGatePhone] = useState("");
+  const [gateCountry, setGateCountry] = useState("us");
+  const [gateDialCode, setGateDialCode] = useState("+1");
   const [gatePhoneFormat, setGatePhoneFormat] = useState<string | null>(null);
   const [gateErrors, setGateErrors] = useState<string | null>(null);
   const [identity, setIdentity] = useState<{
     name: string;
     email: string;
     phone: string;
+    countryCode?: string;
   } | null>(null);
   const [session, setSession] = useState<{ customerId: string; leadId: string } | null>(
     null
@@ -249,6 +280,8 @@ export default function AlexChatDialog({
     setGateName(saved.name);
     setGateEmail(saved.email);
     setGatePhone(saved.phone);
+    setGateCountry(saved.country || "us");
+    setGateDialCode(saved.countryCode || "+1");
     setGateErrors(null);
     setMessages([]);
     setAlexTyping(false);
@@ -265,6 +298,7 @@ export default function AlexChatDialog({
         name: saved.name.trim(),
         email: saved.email.trim(),
         phone: saved.phone.trim(),
+        countryCode: saved.countryCode || "",
       });
     } else {
       setPhase("profile");
@@ -282,7 +316,8 @@ export default function AlexChatDialog({
         const init = await chatInit({
           firstName: identity.name.split(/\s+/)[0] || identity.name,
           email: identity.email,
-          phone: identity.phone,
+          phone: stripDialCode(identity.phone, identity.countryCode),
+          countryCode: identity.countryCode || "",
         });
         if (cancelled) return;
 
@@ -453,9 +488,9 @@ export default function AlexChatDialog({
         return;
       }
     }
-    persistProfile(name, email, phone);
+    persistProfile(name, email, phone, gateCountry, gateDialCode);
     setPhase("connecting");
-    setIdentity({ name, email, phone });
+    setIdentity({ name, email, phone, countryCode: gateDialCode });
   };
 
   const replyToUser = useCallback(
@@ -600,10 +635,18 @@ export default function AlexChatDialog({
                 Phone <span className="text-destructive">*</span>
               </label>
               <PhoneInput
-                country={"us"}
+                country={gateCountry}
                 value={gatePhone}
+                enableSearch={true}
+                searchPlaceholder="Search country..."
                 onChange={(phone, country: any) => {
                   setGatePhone(phone);
+                  if (country?.countryCode) {
+                    setGateCountry(country.countryCode);
+                  }
+                  if (country?.dialCode) {
+                    setGateDialCode("+" + country.dialCode.replace(/^\+/, ""));
+                  }
                   setGatePhoneFormat(country?.format || null);
                 }}
                 inputProps={{
@@ -615,6 +658,7 @@ export default function AlexChatDialog({
                 inputClass="!w-full !h-11 !rounded-xl !bg-background !border-input !text-foreground !text-sm focus:!ring-1 focus:!ring-ring focus:!outline-none"
                 buttonClass="!bg-transparent !border-input !rounded-l-xl hover:!bg-accent"
                 dropdownClass="!bg-popover !text-popover-foreground !rounded-xl !border-border !shadow-md"
+                searchClass="!bg-background !text-foreground !border-input !p-2"
               />
             </div>
             <Button type="submit" className="mt-1 h-11 w-full rounded-xl font-semibold">
