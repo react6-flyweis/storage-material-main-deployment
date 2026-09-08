@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,20 +10,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { DimensionsFormData } from "@/lib/building-form-schemas";
 import Image from "next/image";
 import buildingDimensionsImg from "@/assets/building-dimensions.webp";
 import dimension2Img from "@/assets/dimensions-2.png";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 interface DimensionsStepProps {
   form: UseFormReturn<DimensionsFormData>;
@@ -32,34 +32,34 @@ interface DimensionsStepProps {
   isDialog?: boolean;
 }
 
-const WIDTH_OPTIONS = ["20", "30", "40", "50", "60", "80", "100", "120", "150", "200", "250", "300"];
-const LENGTH_OPTIONS = ["20", "30", "40", "50", "60", "80", "100", "120", "150", "200", "250", "300"];
-const HEIGHT_OPTIONS = ["10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"];
-const ROOF_PITCH_OPTIONS = ["0.25:12", "0.5:12", "1:12", "2:12", "3:12", "4:12", "5:12", "6:12"];
+// const WIDTH_OPTIONS = ["20", "30", "40", "50", "60", "80", "100", "120", "150", "200", "250", "300"];
+// const LENGTH_OPTIONS = ["20", "30", "40", "50", "60", "80", "100", "120", "150", "200", "250", "300"];
+// const HEIGHT_OPTIONS = ["10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"];
+// const ROOF_PITCH_OPTIONS = ["0.25:12", "0.5:12", "1:12", "2:12", "3:12", "4:12", "5:12", "6:12"];
 
 export function DimensionsStep({
   form,
   onNext,
-  onBack,
+  // onBack,
   isDialog,
 }: DimensionsStepProps) {
-  const initialWidth = form.getValues("width") || "";
-  const initialLength = form.getValues("length") || "";
-  const initialHeight = form.getValues("height") || "";
-  const initialRoofPitch = form.getValues("roofPitch") || "";
+  // const initialWidth = form.getValues("width") || "";
+  // const initialLength = form.getValues("length") || "";
+  // const initialHeight = form.getValues("height") || "";
+  // const initialRoofPitch = form.getValues("roofPitch") || "";
 
-  const [isCustomWidth, setIsCustomWidth] = useState(
-    () => !!initialWidth && !WIDTH_OPTIONS.includes(initialWidth)
-  );
-  const [isCustomLength, setIsCustomLength] = useState(
-    () => !!initialLength && !LENGTH_OPTIONS.includes(initialLength)
-  );
-  const [isCustomHeight, setIsCustomHeight] = useState(
-    () => !!initialHeight && !HEIGHT_OPTIONS.includes(initialHeight)
-  );
-  const [isCustomRoofPitch, setIsCustomRoofPitch] = useState(
-    () => !!initialRoofPitch && !ROOF_PITCH_OPTIONS.includes(initialRoofPitch)
-  );
+  // const [isCustomWidth, setIsCustomWidth] = useState(
+  //   () => !!initialWidth && !WIDTH_OPTIONS.includes(initialWidth)
+  // );
+  // const [isCustomLength, setIsCustomLength] = useState(
+  //   () => !!initialLength && !LENGTH_OPTIONS.includes(initialLength)
+  // );
+  // const [isCustomHeight, setIsCustomHeight] = useState(
+  //   () => !!initialHeight && !HEIGHT_OPTIONS.includes(initialHeight)
+  // );
+  // const [isCustomRoofPitch, setIsCustomRoofPitch] = useState(
+  //   () => !!initialRoofPitch && !ROOF_PITCH_OPTIONS.includes(initialRoofPitch)
+  // );
 
   return (
     <Form {...form}>
@@ -310,6 +310,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700!">
                         Roof Pitch <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomRoofPitch && (
                         <button
                           type="button"
@@ -322,47 +323,46 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomRoofPitch ? (
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="e.g. 1.5:12"
+                        value={field.value || ""}
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="w-full bg-gray-100 text-black border-none rounded-md"
+                      />
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom" || val === "other") {
+                          setIsCustomRoofPitch(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="e.g. 1.5:12"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          className="w-full bg-gray-100 text-black border-none rounded-md"
-                          autoFocus
-                        />
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
+                          <SelectValue placeholder="Roof Pitch" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom" || val === "other") {
-                            setIsCustomRoofPitch(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
-                            <SelectValue placeholder="Roof Pitch" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {ROOF_PITCH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt}
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {ROOF_PITCH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt}
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -611,6 +611,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700! text-left">
                         Roof Pitch <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomRoofPitch && (
                         <button
                           type="button"
@@ -623,47 +624,46 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomRoofPitch ? (
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="e.g. 1.5:12"
+                        value={field.value || ""}
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="w-full bg-gray-100 text-black border-none rounded-md"
+                      />
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom" || val === "other") {
+                          setIsCustomRoofPitch(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="e.g. 1.5:12"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          className="w-full bg-gray-100 text-black border-none rounded-md"
-                          autoFocus
-                        />
+                        <SelectTrigger className="w-full border-none bg-gray-100 text-black">
+                          <SelectValue placeholder="Roof Pitch" className="text-black" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom" || val === "other") {
-                            setIsCustomRoofPitch(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full border-none bg-gray-100 text-black">
-                            <SelectValue placeholder="Roof Pitch" className="text-black" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {ROOF_PITCH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt}
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {ROOF_PITCH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt}
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
