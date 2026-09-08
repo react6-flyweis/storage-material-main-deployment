@@ -81,6 +81,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700!">
                         Width <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomWidth && (
                         <button
                           type="button"
@@ -93,52 +94,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomWidth ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter width (e.g. 45)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomWidth(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter width (e.g. 45)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
+                          <SelectValue placeholder="Width" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomWidth(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
-                            <SelectValue placeholder="Width" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {WIDTH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {WIDTH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -154,6 +154,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700!">
                         Length <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomLength && (
                         <button
                           type="button"
@@ -166,52 +167,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomLength ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter length (e.g. 75)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomLength(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter length (e.g. 75)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
+                          <SelectValue placeholder="Length" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomLength(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
-                            <SelectValue placeholder="Length" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {LENGTH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {LENGTH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -237,6 +237,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700!">
                         Height <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomHeight && (
                         <button
                           type="button"
@@ -249,52 +250,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomHeight ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter height (e.g. 15)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomHeight(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter height (e.g. 15)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
+                          <SelectValue placeholder="Height" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomHeight(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none relative z-30 cursor-pointer">
-                            <SelectValue placeholder="Height" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {HEIGHT_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {HEIGHT_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -392,6 +392,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700! text-left">
                         Width <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomWidth && (
                         <button
                           type="button"
@@ -404,52 +405,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomWidth ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter width (e.g. 45)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomWidth(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter width (e.g. 45)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                          <SelectValue placeholder="Width" className="text-black" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomWidth(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none">
-                            <SelectValue placeholder="Width" className="text-black" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {WIDTH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {WIDTH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -465,6 +465,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700! text-left">
                         Length <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomLength && (
                         <button
                           type="button"
@@ -477,52 +478,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomLength ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter length (e.g. 75)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomLength(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter length (e.g. 75)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                          <SelectValue placeholder="Length" className="text-black" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomLength(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none">
-                            <SelectValue placeholder="Length" className="text-black" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {LENGTH_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {LENGTH_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -538,6 +538,7 @@ export function DimensionsStep({
                       <FormLabel className="text-[13px] font-semibold text-slate-700! text-left">
                         Height <span className="text-red-500">*</span>
                       </FormLabel>
+                      {/* Preset option hidden for now
                       {isCustomHeight && (
                         <button
                           type="button"
@@ -550,52 +551,51 @@ export function DimensionsStep({
                           Select preset
                         </button>
                       )}
+                      */}
                     </div>
-                    {isCustomHeight ? (
+                    <FormControl>
+                      <div className="relative flex items-center w-full">
+                        <Input
+                          type="text"
+                          placeholder="Enter height (e.g. 15)"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
+                        />
+                        <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
+                          ft
+                        </span>
+                      </div>
+                    </FormControl>
+                    {/* Presets and Select commented out for now
+                    <Select
+                      onValueChange={(val) => {
+                        if (val === "custom") {
+                          setIsCustomHeight(true);
+                          field.onChange("");
+                        } else {
+                          field.onChange(val);
+                        }
+                      }}
+                      value={field.value || undefined}
+                    >
                       <FormControl>
-                        <div className="relative flex items-center w-full">
-                          <Input
-                            type="text"
-                            placeholder="Enter height (e.g. 15)"
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
-                            autoFocus
-                          />
-                          <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
-                            ft
-                          </span>
-                        </div>
+                        <SelectTrigger className="w-full bg-gray-100 text-black border-none">
+                          <SelectValue placeholder="Height" className="text-black" />
+                        </SelectTrigger>
                       </FormControl>
-                    ) : (
-                      <Select
-                        onValueChange={(val) => {
-                          if (val === "custom") {
-                            setIsCustomHeight(true);
-                            field.onChange("");
-                          } else {
-                            field.onChange(val);
-                          }
-                        }}
-                        value={field.value || undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full bg-gray-100 text-black border-none">
-                            <SelectValue placeholder="Height" className="text-black" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {HEIGHT_OPTIONS.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt} ft
-                            </SelectItem>
-                          ))}
-                          <SelectItem value="custom" className="font-semibold text-primary">
-                            Custom...
+                      <SelectContent>
+                        {HEIGHT_OPTIONS.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt} ft
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                        ))}
+                        <SelectItem value="custom" className="font-semibold text-primary">
+                          Custom...
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    */}
                     <FormMessage />
                   </FormItem>
                 )}
