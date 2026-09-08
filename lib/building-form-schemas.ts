@@ -7,9 +7,18 @@ export const buildingTypeSchema = z.object({
 
 // Step 2: Dimensions Schema
 export const dimensionsSchema = z.object({
-  width: z.string().min(1, "Width is required"),
-  length: z.string().min(1, "Length is required"),
-  height: z.string().min(1, "Height is required"),
+  width: z
+    .string()
+    .min(1, "Width is required")
+    .regex(/^\d+$/, "Width must be a valid number"),
+  length: z
+    .string()
+    .min(1, "Length is required")
+    .regex(/^\d+$/, "Length must be a valid number"),
+  height: z
+    .string()
+    .min(1, "Height is required")
+    .regex(/^\d+$/, "Height must be a valid number"),
   roofPitch: z.string().min(1, "Roof pitch is required"),
 });
 
@@ -17,11 +26,8 @@ export const dimensionsSchema = z.object({
 export const locationSchema = z.object({
   postalCode: z
     .string()
-    .min(1, "Postal code is required")
-    .regex(
-      /^[0-9]{5}(-[0-9]{4})?$|^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
-      "Please enter a valid US ZIP code (e.g., 12345 or 12345-6789) or Canadian postal code (e.g., A1A 1A1)"
-    ),
+    .min(1, "Zip code is required")
+    .regex(/^\d{5}$/, "Please enter a valid 5-digit ZIP code"),
 });
 
 // Step 4: Name Schema

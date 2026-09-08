@@ -100,9 +100,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter width (e.g. 45)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
@@ -173,9 +176,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter length (e.g. 75)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
@@ -256,9 +262,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter height (e.g. 15)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
@@ -411,9 +420,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter width (e.g. 45)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
@@ -484,9 +496,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter length (e.g. 75)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
@@ -557,9 +572,12 @@ export function DimensionsStep({
                       <div className="relative flex items-center w-full">
                         <Input
                           type="text"
+                          inputMode="numeric"
                           placeholder="Enter height (e.g. 15)"
                           value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          }
                           className="w-full bg-gray-100 text-black border-none pr-8 rounded-md"
                         />
                         <span className="absolute right-3 text-xs font-semibold text-slate-500 pointer-events-none">
