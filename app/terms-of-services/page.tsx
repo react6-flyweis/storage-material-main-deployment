@@ -1,17 +1,19 @@
-import React from "react";
 import Container from "@/components/Container";
+import getContactDetails from "@/lib/getContactDetails";
 
 export const metadata = {
   title: "Terms of Services | Steel Building Depot",
   description: "Terms and conditions for using the Steel Building Depot website and services.",
 };
 
-export default function TermsOfServices() {
+export default async function TermsOfServices() {
+  const cd = await getContactDetails();
+
   return (
     <main className="min-h-screen bg-white py-20">
       <Container className="max-w-4xl">
         <h1 className="text-4xl font-bold text-[#0B1E3E] mb-8 font-work-sans">Terms of Services</h1>
-        
+
         <div className="prose prose-slate max-w-none space-y-6 text-gray-700 font-roboto text-lg leading-relaxed">
           <p className="font-medium italic">Effective date: May 7, 2024</p>
 
@@ -25,7 +27,7 @@ export default function TermsOfServices() {
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-[#0065E6] font-work-sans">2. Use License</h2>
             <p>
-              Permission is granted to temporarily download one copy of the materials (information or software) on Steel Building Depot's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+              Permission is granted to temporarily download one copy of the materials (information or software) on Steel Building Depot&apos;s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Modify or copy the materials;</li>
@@ -38,7 +40,7 @@ export default function TermsOfServices() {
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-[#0065E6] font-work-sans">3. Disclaimer</h2>
             <p>
-              The materials on Steel Building Depot's website are provided on an 'as is' basis. Steel Building Depot makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+              The materials on Steel Building Depot&apos;s website are provided on an &apos;as is&apos; basis. Steel Building Depot makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
             </p>
           </section>
 
@@ -62,9 +64,10 @@ export default function TermsOfServices() {
               If you have any questions about these Terms, please contact us at:
             </p>
             <p className="font-medium">
-              Steel Building Depot<br />
-              1995 G Ave, Red Oak, IA 51566<br />
-              Email: info@steelbuildingdepot.com
+              {cd?.name || "Steel Building Depot"}<br />
+              {cd?.address && <>{cd.address}<br /></>}
+              {cd?.email && <>Email: {cd.email}<br /></>}
+              {cd?.phone && <>Phone: {cd.phone}</>}
             </p>
           </section>
         </div>

@@ -1,18 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Phone, Mail, Facebook, Linkedin, ArrowRight, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, Linkedin, Instagram, Twitter, Youtube, ArrowRight } from "lucide-react";
 import ContactUsDialog from "./ContactUsDialog";
 import NewsletterForm from "./NewsletterForm";
 import footer1 from "@/assets/footer/footer1.png";
 import footer2 from "@/assets/footer/footer2.png";
 import footer3 from "@/assets/footer/footer3.png";
+import { useContactDetails } from "@/lib/hooks/useContactDetails";
 
 export default function FooterMobile() {
-  const address = `1995 G Ave, Red Oak, IA 51566`;
-  const phone = "888-868-8680";
-  const email = "info@steelbuildingdepot.com";
-  const fb = "https://www.facebook.com/profile.php?id=61582635286885";
-  const linkedin = "https://www.linkedin.com/company/113053006/admin/dashboard/";
+  const { data: contactData, isLoading } = useContactDetails();
+
+  const address = contactData?.address;
+  const phone = contactData?.phone;
+  const email = contactData?.email;
+  const fb = contactData?.fb;
+  const linkedin = contactData?.linkedIn || contactData?.linkedin;
+  const twitter = contactData?.twitter;
+  const instagram = contactData?.instagram;
+  const youtube = contactData?.youtube;
+  const copyRight = contactData?.copyRight;
 
   return (
     <div className="lg:hidden bg-[#F8FAFC] text-foreground w-full font-roboto">
@@ -53,16 +60,18 @@ export default function FooterMobile() {
       <div className="py-10 px-6 space-y-4">
         {[
           { icon: MapPin, title: "ADDRESS", value: address, href: null },
-          { icon: Phone, title: "TOLL FREE", value: phone, href: `tel:${phone.replace(/-/g, "")}` },
-          { icon: Mail, title: "EMAIL", value: email, href: `mailto:${email}` },
+          { icon: Phone, title: "TOLL FREE", value: phone, href: phone ? `tel:${phone.replace(/[^0-9+]/g, "")}` : null },
+          { icon: Mail, title: "EMAIL", value: email, href: email ? `mailto:${email}` : null },
         ].map((item, idx) => (
           <div key={idx} className="bg-white p-5 rounded-2xl border border-gray-100 flex items-center gap-5 shadow-sm">
             <div className="w-14 h-14 rounded-full bg-[#0932A2] flex items-center justify-center flex-shrink-0 shadow-lg">
               <item.icon className="text-white w-6 h-6" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <h4 className="text-[#0065E6] font-bold text-xs tracking-widest mb-1 uppercase">{item.title}</h4>
-              {item.href ? (
+              {isLoading ? (
+                <div className="h-5 w-40 bg-gray-200 animate-pulse rounded mt-1" />
+              ) : item.href ? (
                 <Link href={item.href} className="text-[#1E293B] text-base font-semibold transition-colors break-all">
                   {item.value}
                 </Link>
@@ -88,12 +97,40 @@ export default function FooterMobile() {
         </div>
 
         <div className="flex items-center justify-center gap-4 mt-8">
-          <Link href={fb} target="_blank" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
-            <Facebook className="w-6 h-6" />
-          </Link>
-          <Link href={linkedin} target="_blank" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
-            <Linkedin className="w-6 h-6" />
-          </Link>
+          {isLoading ? (
+            <>
+              <div className="w-12 h-12 rounded-full bg-white/10 animate-pulse" />
+              <div className="w-12 h-12 rounded-full bg-white/10 animate-pulse" />
+            </>
+          ) : (
+            <>
+              {fb && (
+                <Link href={fb} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+                  <Facebook className="w-6 h-6" />
+                </Link>
+              )}
+              {linkedin && (
+                <Link href={linkedin} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+                  <Linkedin className="w-6 h-6" />
+                </Link>
+              )}
+              {twitter && (
+                <Link href={twitter} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+                  <Twitter className="w-6 h-6" />
+                </Link>
+              )}
+              {instagram && (
+                <Link href={instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+                  <Instagram className="w-6 h-6" />
+                </Link>
+              )}
+              {youtube && (
+                <Link href={youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+                  <Youtube className="w-6 h-6" />
+                </Link>
+              )}
+            </>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-6 mt-10 opacity-70">
@@ -102,28 +139,21 @@ export default function FooterMobile() {
           <Image src={footer3} alt="Google Reviews" className="h-10 w-auto object-contain grayscale brightness-0 invert" />
         </div>
 
-        {/* Floating elements placeholder - usually these would be separate components */}
+        {/* Floating elements placeholder */}
         <div className="absolute right-6 -top-6">
           <button className="w-12 h-12 bg-black rounded-full flex items-center justify-center shadow-xl">
             <ArrowRight className="text-white w-6 h-6 -rotate-90" />
           </button>
         </div>
 
-        {/* <div className="absolute right-6 bottom-10">
-           <div className="w-14 h-14 bg-[#0065E6] rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0B1E3E]">
-             <MessageCircle className="text-white w-7 h-7" />
-           </div>
-        </div> */}
-
         <div className="mt-16 pt-8 border-t border-white/10 text-center">
-          {/* <div className="flex items-center justify-center gap-4 text-sm font-medium text-white/70 mb-4">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <span className="text-white/20">|</span>
-            <Link href="/terms-of-services" className="hover:text-white transition-colors">Terms of Service</Link>
-          </div> */}
-          <p className="text-white/40 text-xs font-medium tracking-wide">
-            Copyright © 2024 Steel Building Depot. All rights reserved.
-          </p>
+          {isLoading ? (
+            <div className="h-4 w-60 bg-white/20 animate-pulse rounded mx-auto" />
+          ) : (
+            <p className="text-white/40 text-xs font-medium tracking-wide">
+              {copyRight || ""}
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -1,41 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Container from "./Container";
 import NewsletterForm from "./NewsletterForm";
 import FooterSection from "./FooterSection";
+import { useContactDetails } from "@/lib/hooks/useContactDetails";
 
-// Import types if needed, but since we are passing props we can just use any or define them here
 interface FooterClientProps {
-  address: string;
-  email: string;
-  fb: string | null;
-  linkedin: string | null;
-  twitter: string | null;
-  copyRight: string;
+  address?: string;
+  email?: string;
+  fb?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  copyRight?: string;
   logos: {
-    theSteelLogo: any;
-    fbLogo: any;
-    linkedinLogo: any;
-    twitterLogo: any;
-    footer1: any;
-    footer2: any;
-    footer3: any;
+    theSteelLogo: StaticImageData | string;
+    fbLogo: StaticImageData | string;
+    linkedinLogo: StaticImageData | string;
+    twitterLogo: StaticImageData | string;
+    footer1: StaticImageData | string;
+    footer2: StaticImageData | string;
+    footer3: StaticImageData | string;
   };
 }
 
 export default function FooterClient({
-  address,
-  email,
-  fb,
-  linkedin,
-  twitter,
-  copyRight,
+  address: propAddress,
+  email: propEmail,
+  fb: propFb,
+  linkedin: propLinkedin,
+  copyRight: propCopyRight,
   logos,
 }: FooterClientProps) {
   const [openSection, setOpenSection] = useState<string | null>("contact");
+
+  const { data: contactData, isLoading } = useContactDetails();
+
+  const phone = contactData?.phone;
+  const address = contactData?.address || propAddress;
+  const email = contactData?.email || propEmail;
+  const fb = contactData?.fb || propFb;
+  const linkedin = contactData?.linkedIn || contactData?.linkedin || propLinkedin;
+  const copyRight = contactData?.copyRight || propCopyRight;
 
   const toggleSection = (section: string) => {
     setOpenSection(openSection === section ? null : section);
@@ -64,18 +72,30 @@ export default function FooterClient({
               <div className="flex flex-col">
                 <span className="font-bold text-primary uppercase tracking-tighter text-[10px] mb-1">Customer Support</span>
                 <div className="flex flex-col gap-1 items-center md:items-start">
-                  <Link href="tel:8888688680" className="text-slate-800 hover:text-primary transition-colors font-semibold text-base">
-                    +1 888-868-8680 <span className="text-[10px] font-bold text-primary uppercase ml-1">(Toll Free)</span>
-                  </Link>
+                  {isLoading ? (
+                    <div className="h-5 w-36 bg-slate-200 animate-pulse rounded my-1" />
+                  ) : phone ? (
+                    <Link href={`tel:${phone.replace(/[^0-9+]/g, "")}`} className="text-slate-800 hover:text-primary transition-colors font-semibold text-base">
+                      {phone} <span className="text-[10px] font-bold text-primary uppercase ml-1">(Toll Free)</span>
+                    </Link>
+                  ) : null}
                 </div>
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-primary uppercase tracking-tighter text-[10px] mb-1">Office</span>
-                <span className="text-slate-600 leading-snug">{address}</span>
+                {isLoading ? (
+                  <div className="h-5 w-48 bg-slate-200 animate-pulse rounded my-1" />
+                ) : (
+                  <span className="text-slate-600 leading-snug">{address}</span>
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-primary uppercase tracking-tighter text-[10px] mb-1">Email</span>
-                <Link href={`mailto:${email}`} className="text-slate-800 hover:text-primary transition-colors font-semibold">{email}</Link>
+                {isLoading ? (
+                  <div className="h-5 w-40 bg-slate-200 animate-pulse rounded my-1" />
+                ) : (
+                  <Link href={`mailto:${email}`} className="text-slate-800 hover:text-primary transition-colors font-semibold">{email}</Link>
+                )}
               </div>
             </div>
           </FooterSection>
@@ -123,11 +143,11 @@ export default function FooterClient({
                 <Link href={linkedin || "#"} aria-label="LinkedIn" className="hover:scale-110 transition-transform">
                   <Image src={logos.linkedinLogo} alt="LinkedIn" className="h-9 w-9" />
                 </Link>
-{/* <Link href={twitter || "#"} aria-label="Twitter" className="hover:scale-110 transition-transform">
+                {/* <Link href={twitter || "#"} aria-label="Twitter" className="hover:scale-110 transition-transform">
                   <Image src={logos.twitterLogo} alt="Twitter" className="h-9 w-9" />
                 </Link> */}
               </div>
-              
+
               <div className="flex flex-wrap gap-6 items-center justify-center md:justify-start pt-8 border-t border-slate-200 w-full md:w-auto">
                 <Image src={logos.footer1} alt="Accreditation 1" className="h-10 w-auto" />
                 <Image src={logos.footer2} alt="Accreditation 2" className="h-10 w-auto" />

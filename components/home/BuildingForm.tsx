@@ -35,6 +35,8 @@ import { PhoneIcon } from "lucide-react";
 import useSendQuote from "@/lib/hooks/useSendQuote";
 import getErrorMessage from "@/lib/getErrorMessage";
 
+import { useContactDetails } from "@/lib/hooks/useContactDetails";
+
 export default function BuildingForm({
   isDialog = false,
   onClose,
@@ -44,25 +46,9 @@ export default function BuildingForm({
 }) {
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState<Partial<FullBuildingFormData>>({});
-  const [phone, setPhone] = useState<string>("+1 888-868-8680");
 
-  useEffect(() => {
-    let mounted = true;
-    const fetchContact = async () => {
-      try {
-        const res = await fetch("/api/contact");
-        if (!res.ok) return;
-        const json = await res.json();
-        const cd = json?.data ?? null;
-      } catch (e) {
-        // ignore and keep fallback
-      }
-    };
-    fetchContact();
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const { data: contactData, isLoading: contactLoading } = useContactDetails();
+  const phone = contactData?.phone;
 
   const totalSteps = 6;
   const progressPercentage = `${(step / totalSteps) * 100}%`;
@@ -308,13 +294,17 @@ export default function BuildingForm({
             </div>
 
             <div className="mt-4 flex items-center justify-center">
-              <a
-                href={`tel:${phone}`}
-                className="inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-full shadow-md"
-              >
-                <PhoneIcon className="fill-primary text-primary" />
-                {phone}
-              </a>
+              {contactLoading ? (
+                <div className="h-10 w-44 bg-gray-200 animate-pulse rounded-full" />
+              ) : phone ? (
+                <a
+                  href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
+                  className="inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-full shadow-md hover:bg-gray-800 transition-colors"
+                >
+                  <PhoneIcon className="fill-primary text-primary" />
+                  {phone}
+                </a>
+              ) : null}
             </div>
           </div>
         )}
