@@ -143,8 +143,16 @@ export default function SimpleQuoteDialog({
               <Label>Zip *</Label>
               <Input
                 name="zip"
+                type="text"
+                inputMode="numeric"
+                maxLength={5}
                 value={form.zip}
-                onChange={handleChange}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    zip: e.target.value.replace(/\D/g, "").slice(0, 5),
+                  }))
+                }
                 placeholder="Zip"
                 className="mt-1"
               />
