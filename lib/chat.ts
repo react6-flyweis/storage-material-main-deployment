@@ -41,7 +41,7 @@ export async function chatInit(body: {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...body,
-      countryCode: body.countryCode || "+1",
+      countryCode: body.countryCode || "",
     }),
   })
   const json = (await res.json()) as ApiEnvelope<ChatInitResponse>

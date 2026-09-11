@@ -36,12 +36,23 @@ export function LocationStep({ form, onNext, onBack }: LocationStepProps) {
           name="postalCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[13px] font-semibold mb-1 block !text-slate-700 text-center">Zip or Postal Code <span className="text-red-500">*</span></FormLabel>
+              <FormLabel className="text-[13px] font-semibold mb-1 block text-slate-700! text-center">
+                Zip Code <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <div className="flex justify-center">
                   <Input
                     {...field}
-                    placeholder="Zip or Postal Code"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    placeholder="Zip Code"
+                    value={field.value || ""}
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value.replace(/\D/g, "").slice(0, 5),
+                      )
+                    }
                     className="w-[400px] h-16 py-4 px-3 text-2xl font-medium rounded-lg bg-gray-100 text-center placeholder:text-muted-foreground placeholder:text-2xl border-none"
                   />
                 </div>

@@ -1,19 +1,20 @@
 import designerLeantosImg from "@/assets/designer/designer-leantos.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import PreviewOverlay from "./PreviewOverlay";
 import { useState } from "react";
 import NumberStepper from "./NumberStepper";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectTrigger,
+//   SelectValue,
+//   SelectContent,
+//   SelectItem,
+// } from "@/components/ui/select";
 
 type TabNavProps = {
   onPrev?: () => void;
@@ -32,6 +33,7 @@ export default function LeantosTab({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [pitch, setPitch] = useState("3:12");
+  // const [isCustomPitch, setIsCustomPitch] = useState(false);
 
   return (
     <div className="flex-1 flex h-full flex-col md:flex-row">
@@ -61,8 +63,42 @@ export default function LeantosTab({
         </div>
 
         <div className="mt-6">
-          <Label className="mb-2 block text-white/90">Roof Pitch</Label>
-          <Select defaultValue={pitch} onValueChange={(v) => setPitch(v)}>
+          <div className="flex items-center justify-between mb-2">
+            <Label className="block text-white/90">Roof Pitch</Label>
+            {/* Preset option hidden for now
+            {isCustomPitch && (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCustomPitch(false);
+                  setPitch("1:12");
+                }}
+                className="text-xs text-blue-300 underline hover:text-white"
+              >
+                Select preset
+              </button>
+            )}
+            */}
+          </div>
+          <Input
+            type="text"
+            placeholder="e.g. 1.5:12"
+            value={pitch}
+            onChange={(e) => setPitch(e.target.value)}
+            className="w-full h-9 bg-white text-black rounded-md"
+          />
+          {/* Presets and Select commented out for now
+          <Select
+            value={pitch}
+            onValueChange={(v) => {
+              if (v === "custom") {
+                setIsCustomPitch(true);
+                setPitch("");
+              } else {
+                setPitch(v);
+              }
+            }}
+          >
             <SelectTrigger className="w-full bg-white text-black rounded-md">
               <SelectValue>{pitch}</SelectValue>
             </SelectTrigger>
@@ -73,8 +109,12 @@ export default function LeantosTab({
               <SelectItem value="3:12">3:12</SelectItem>
               <SelectItem value="4:12">4:12</SelectItem>
               <SelectItem value="5:12">5:12</SelectItem>
+              <SelectItem value="custom" className="font-semibold text-primary">
+                Custom...
+              </SelectItem>
             </SelectContent>
           </Select>
+          */}
         </div>
 
         <div className="hidden md:flex gap-2 mt-auto">
@@ -106,7 +146,7 @@ export default function LeantosTab({
           fill
           className="object-cover"
         />
-        <PreviewOverlay  />
+        <PreviewOverlay />
       </div>
     </div>
   );

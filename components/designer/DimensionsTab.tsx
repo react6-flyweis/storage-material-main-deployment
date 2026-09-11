@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import designerDimensionsImg from "@/assets/designer/designer-dimensions.png";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectTrigger,
@@ -21,16 +22,17 @@ type TabNavProps = {
 };
 
 export default function DimensionsTab({
-  onPrev,
+  // onPrev,
   onNext,
-  prevDisabled,
+  // prevDisabled,
   nextDisabled,
 }: TabNavProps) {
   const [width, setWidth] = useState<number>(33);
   const [length, setLength] = useState<number>(55);
   const [height, setHeight] = useState<number>(76);
-  const [roofStyle, setRoofStyle] = useState<string | undefined>(undefined);
+  const [_roofStyle, setRoofStyle] = useState<string | undefined>(undefined);
   const [roofPitch, setRoofPitch] = useState<string | undefined>(undefined);
+  // const [isCustomRoofPitch, setIsCustomRoofPitch] = useState(false);
 
   return (
     <div className="flex-1 flex flex-col h-full">
@@ -44,7 +46,7 @@ export default function DimensionsTab({
               className="object-cover"
               priority
             />
-            <PreviewOverlay 
+            <PreviewOverlay
               fontSize="clamp(1.5rem, 5vw, 2.5rem)"
               width="min(631px, 90%)"
             />
@@ -85,9 +87,43 @@ export default function DimensionsTab({
             </div>
 
             <div className="flex flex-col">
-              <span className="text-sm text-white mb-2">Roof Pitch</span>
-              <Select onValueChange={(v) => setRoofPitch(v)}>
-                <SelectTrigger className="w-full bg-white">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-white">Roof Pitch</span>
+                {/* Preset option hidden for now
+                {isCustomRoofPitch && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCustomRoofPitch(false);
+                      setRoofPitch(undefined);
+                    }}
+                    className="text-xs text-blue-300 underline hover:text-white"
+                  >
+                    Select preset
+                  </button>
+                )}
+                */}
+              </div>
+              <Input
+                type="text"
+                placeholder="e.g. 1.5:12"
+                value={roofPitch || ""}
+                onChange={(e) => setRoofPitch(e.target.value)}
+                className="w-full h-9 bg-white text-black"
+              />
+              {/* Presets and Select commented out for now
+              <Select
+                value={roofPitch}
+                onValueChange={(v) => {
+                  if (v === "custom") {
+                    setIsCustomRoofPitch(true);
+                    setRoofPitch("");
+                  } else {
+                    setRoofPitch(v);
+                  }
+                }}
+              >
+                <SelectTrigger className="w-full bg-white text-black">
                   <SelectValue placeholder="Select Roof Pitch" />
                 </SelectTrigger>
                 <SelectContent>
@@ -96,8 +132,12 @@ export default function DimensionsTab({
                   <SelectItem value="3:12">3:12</SelectItem>
                   <SelectItem value="4:12">4:12</SelectItem>
                   <SelectItem value="5:12">5:12</SelectItem>
+                  <SelectItem value="custom" className="font-semibold text-primary">
+                    Custom...
+                  </SelectItem>
                 </SelectContent>
               </Select>
+              */}
             </div>
           </div>
 

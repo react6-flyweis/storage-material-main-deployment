@@ -19,9 +19,13 @@ export default function NumberStepper({
         <MinusIcon className="w-4 h-4" />
       </button>
       <input
-        type="number"
+        type="text"
+        inputMode="numeric"
         value={value}
-        onChange={(e) => onChange(Number(e.target.value || 0))}
+        onChange={(e) => {
+          const digits = e.target.value.replace(/\D/g, "");
+          onChange(digits ? Number(digits) : 0);
+        }}
         className="w-20 text-center bg-transparent outline-none h-full"
       />
       <button
