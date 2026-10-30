@@ -162,8 +162,8 @@ export default function FooterClient({
         <Container className="flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-xs md:text-sm">
           <p>{copyRight}</p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="hover:text-white transition-colors">Terms of Use</Link>
           </div>
         </Container>
       </div>

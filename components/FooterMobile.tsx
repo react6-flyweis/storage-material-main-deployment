@@ -146,7 +146,15 @@ export default function FooterMobile() {
           </button>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 text-center">
+        <div className="mt-16 pt-8 border-t border-white/10 text-center flex flex-col items-center gap-3">
+          <div className="flex items-center justify-center gap-6 text-xs text-white/70">
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-use" className="hover:text-white transition-colors">
+              Terms of Use
+            </Link>
+          </div>
           {isLoading ? (
             <div className="h-4 w-60 bg-white/20 animate-pulse rounded mx-auto" />
           ) : (
