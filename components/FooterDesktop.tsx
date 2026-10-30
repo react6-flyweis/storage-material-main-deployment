@@ -190,12 +190,20 @@ export default function FooterDesktop() {
       {/* Bottom Bar */}
       <div className="bg-[#0B1E3E] py-6 text-white border-t border-white/10">
         <Container fluid className="max-w-[1512px] px-8 xl:px-12">
-          <div className="flex items-center justify-center gap-8 text-base font-work-sans">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-base font-work-sans">
             {isLoading ? (
               <div className="h-5 w-72 bg-white/20 animate-pulse rounded" />
             ) : (
               <p className="opacity-90">{copyRight || ""}</p>
             )}
+            <div className="flex items-center gap-6 text-sm text-white/80">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-of-use" className="hover:text-white transition-colors">
+                Terms of Use
+              </Link>
+            </div>
           </div>
         </Container>
       </div>
