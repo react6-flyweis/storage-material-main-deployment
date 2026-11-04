@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -46,6 +47,7 @@ const STORAGE_PROFILE_EMAIL = "sbd_chat_profile_email";
 const STORAGE_PROFILE_PHONE = "sbd_chat_profile_phone";
 const STORAGE_PROFILE_COUNTRY = "sbd_chat_profile_country";
 const STORAGE_PROFILE_DIAL = "sbd_chat_profile_dial";
+const STORAGE_PROFILE_CONSENT = "sbd_chat_sms_consent";
 
 function sortChatMessagesByTime(list: ChatMessage[]): ChatMessage[] {
   return [...list]
@@ -65,6 +67,7 @@ function loadSavedProfile(): {
   phone: string;
   country: string;
   countryCode: string;
+  agreed: boolean;
 } {
   try {
     return {
@@ -73,9 +76,10 @@ function loadSavedProfile(): {
       phone: localStorage.getItem(STORAGE_PROFILE_PHONE) || "",
       country: localStorage.getItem(STORAGE_PROFILE_COUNTRY) || "us",
       countryCode: localStorage.getItem(STORAGE_PROFILE_DIAL) || "+1",
+      agreed: localStorage.getItem(STORAGE_PROFILE_CONSENT) === "true",
     };
   } catch {
-    return { name: "", email: "", phone: "", country: "us", countryCode: "+1" };
+    return { name: "", email: "", phone: "", country: "us", countryCode: "+1", agreed: false };
   }
 }
 
@@ -84,7 +88,8 @@ function persistProfile(
   email: string,
   phone: string,
   country: string,
-  countryCode: string
+  countryCode: string,
+  agreed: boolean
 ) {
   try {
     localStorage.setItem(STORAGE_PROFILE_NAME, name.trim());
@@ -92,6 +97,9 @@ function persistProfile(
     localStorage.setItem(STORAGE_PROFILE_PHONE, phone.trim());
     localStorage.setItem(STORAGE_PROFILE_COUNTRY, country.trim());
     localStorage.setItem(STORAGE_PROFILE_DIAL, countryCode.trim());
+    if (agreed) {
+      localStorage.setItem(STORAGE_PROFILE_CONSENT, "true");
+    }
   } catch {
     /* private mode */
   }
@@ -130,11 +138,13 @@ function isStoredProfileComplete(saved: {
   name: string;
   email: string;
   phone: string;
+  agreed: boolean;
 }): boolean {
   return (
     Boolean(saved.name.trim()) &&
     isEmailOk(saved.email) &&
-    phoneDigitsCount(saved.phone) >= 8
+    phoneDigitsCount(saved.phone) >= 8 &&
+    saved.agreed === true
   );
 }
 
@@ -202,6 +212,7 @@ export default function AlexChatDialog({
   const [gateCountry, setGateCountry] = useState("us");
   const [gateDialCode, setGateDialCode] = useState("+1");
   const [gatePhoneFormat, setGatePhoneFormat] = useState<string | null>(null);
+  const [gateAgreed, setGateAgreed] = useState(false);
   const [gateErrors, setGateErrors] = useState<string | null>(null);
   const [identity, setIdentity] = useState<{
     name: string;
@@ -282,6 +293,7 @@ export default function AlexChatDialog({
     setGatePhone(saved.phone);
     setGateCountry(saved.country || "us");
     setGateDialCode(saved.countryCode || "+1");
+    setGateAgreed(saved.agreed);
     setGateErrors(null);
     setMessages([]);
     setAlexTyping(false);
@@ -488,7 +500,11 @@ export default function AlexChatDialog({
         return;
       }
     }
-    persistProfile(name, email, phone, gateCountry, gateDialCode);
+    if (!gateAgreed) {
+      setGateErrors("Please agree to receive text messages to continue.");
+      return;
+    }
+    persistProfile(name, email, phone, gateCountry, gateDialCode, gateAgreed);
     setPhase("connecting");
     setIdentity({ name, email, phone, countryCode: gateDialCode });
   };
@@ -661,7 +677,52 @@ export default function AlexChatDialog({
                 searchClass="!bg-background !text-foreground !border-input !p-2"
               />
             </div>
-            <Button type="submit" className="mt-1 h-11 w-full rounded-xl font-semibold">
+            <div className="flex items-start gap-2.5 pt-1">
+              <input
+                id="sbd-gate-agree"
+                type="checkbox"
+                checked={gateAgreed}
+                onChange={(e) => setGateAgreed(e.target.checked)}
+                className="mt-0.5 size-4 shrink-0 rounded border-input text-primary accent-primary focus:ring-ring focus:ring-offset-0 cursor-pointer"
+                required
+              />
+              <label
+                htmlFor="sbd-gate-agree"
+                className="text-muted-foreground text-xs leading-relaxed cursor-pointer select-none"
+              >
+                By providing your mobile number and clicking Save &amp; open chat,
+                you agree to receive text messages from Steel Building Depot
+                (Steel Investments LLC) about your inquiry and account, including
+                follow-ups, quotes, invoices, and delivery/project updates. Message
+                and data rates may apply. Frequency varies. Reply STOP to opt out,
+                HELP for help. See our{" "}
+                <Link
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="underline underline-offset-2 hover:text-foreground text-foreground/80 font-medium"
+                >
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/terms-of-use"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="underline underline-offset-2 hover:text-foreground text-foreground/80 font-medium"
+                >
+                  Terms of Use
+                </Link>
+                .
+              </label>
+            </div>
+            <Button
+              type="submit"
+              disabled={!gateAgreed}
+              className="mt-1 h-11 w-full rounded-xl font-semibold"
+            >
               Save & open chat
             </Button>
           </form>
