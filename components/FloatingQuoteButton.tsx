@@ -103,7 +103,7 @@ export default function FloatingQuoteButton() {
               "hover:scale-105 active:scale-95 transition-transform",
               !reducedMotion && "animate-fab-soft-bob"
             )}
-            aria-label="Chat with Alex"
+            aria-label="Chat with Sam"
           >
             <MessageCircle className="!size-7 shrink-0" aria-hidden />
           </Button>
