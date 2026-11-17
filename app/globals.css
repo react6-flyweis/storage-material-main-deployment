@@ -227,7 +227,7 @@
     animation: quote-teaser-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
-  /* Alex chat dialog — bubbles & typing */
+  /* Sam chat dialog — bubbles & typing */
   @keyframes chat-bubble-in {
     from {
       opacity: 0;
