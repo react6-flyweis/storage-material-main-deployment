@@ -30,7 +30,7 @@ import {
   type ChatHistoryMessage,
 } from "@/lib/chat";
 
-type Role = "alex" | "user" | "sales" | "admin";
+type Role = "alex" | "sam" | "user" | "sales" | "admin";
 
 type ChatMessage = {
   id: string;
@@ -163,7 +163,7 @@ function mapHistoryRow(m: ChatHistoryMessage): ChatMessage | null {
       sortTs,
     };
   }
-  return { id: crypto.randomUUID(), role: "alex", text: m.content, sortTs };
+  return { id: crypto.randomUUID(), role: "sam", text: m.content, sortTs };
 }
 
 function usePrefersReducedMotion() {
@@ -224,7 +224,7 @@ export default function AlexChatDialog({
     null
   );
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [alexTyping, setAlexTyping] = useState(false);
+  const [samTyping, setSamTyping] = useState(false);
   const [salesTyping, setSalesTyping] = useState<{ active: boolean; name?: string }>({
     active: false,
   });
@@ -260,7 +260,7 @@ export default function AlexChatDialog({
       if (payload.senderType === "ai") {
         setMessages((prev) => [
           ...prev,
-          { id: crypto.randomUUID(), role: "alex", text: payload.content, sortTs },
+          { id: crypto.randomUUID(), role: "sam", text: payload.content, sortTs },
         ]);
       } else if (payload.senderType === "sales" || payload.senderType === "admin") {
         setMessages((prev) => [
@@ -296,7 +296,7 @@ export default function AlexChatDialog({
     setGateAgreed(saved.agreed);
     setGateErrors(null);
     setMessages([]);
-    setAlexTyping(false);
+    setSamTyping(false);
     setSalesTyping({ active: false });
     setHandedToSales(false);
     setAssignedSalesName(null);
@@ -347,8 +347,8 @@ export default function AlexChatDialog({
         if (hydrated.length === 0) {
           hydrated.push({
             id: crypto.randomUUID(),
-            role: "alex",
-            text: `Hi ${init.customerName || identity.name.split(/\\s+/)[0]}! I'm Alex. How can I help you today?`,
+            role: "sam",
+            text: `Hi ${init.customerName || identity.name.split(/\\s+/)[0]}! I'm Sam. How can I help you today?`,
             sortTs: Date.now() - 1000,
           });
         }
@@ -426,7 +426,7 @@ export default function AlexChatDialog({
     socket.on("ai_typing", (payload: { isTyping?: boolean } | boolean) => {
       const typing =
         typeof payload === "boolean" ? payload : Boolean(payload?.isTyping);
-      setAlexTyping(typing);
+      setSamTyping(typing);
     });
 
     socket.on(
@@ -441,13 +441,13 @@ export default function AlexChatDialog({
 
     socket.on("lead_handed_to_sales", (payload: { assignedSales?: string }) => {
       setHandedToSales(true);
-      setAlexTyping(false);
+      setSamTyping(false);
       const name = payload?.assignedSales?.trim() || "a sales representative";
       setAssignedSalesName(name);
     });
 
     socket.on("chat_error", (payload: { message?: string }) => {
-      setAlexTyping(false);
+      setSamTyping(false);
       setBannerError(payload?.message?.trim() || "Something went wrong.");
     });
 
@@ -466,12 +466,12 @@ export default function AlexChatDialog({
       top: el.scrollHeight,
       behavior: reducedMotion ? "auto" : "smooth",
     });
-  }, [messages, alexTyping, salesTyping.active, phase, reducedMotion]);
+  }, [messages, samTyping, salesTyping.active, phase, reducedMotion]);
 
   const canSend =
     sessionReady &&
     phase === "ready" &&
-    !alexTyping &&
+    !samTyping &&
     !bannerError?.toLowerCase().includes("could not reach");
 
   const onStartChat = (e: React.FormEvent) => {
@@ -558,10 +558,10 @@ export default function AlexChatDialog({
         )}
       >
         <DialogTitle className="sr-only">
-          Chat with Alex — Steel Building Depot
+          Chat with Sam — Steel Building Depot
         </DialogTitle>
         <DialogDescription className="sr-only">
-          Live chat with Alex at Steel Building Depot. A sales team member may join when your project details are complete.
+          Live chat with Sam at Steel Building Depot. A sales team member may join when your project details are complete.
         </DialogDescription>
 
         <header className="border-border/60 from-card to-card/95 flex shrink-0 items-center gap-3 border-b bg-gradient-to-b px-4 py-3 pr-12 shadow-sm">
@@ -570,7 +570,7 @@ export default function AlexChatDialog({
               className="flex size-11 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 text-sm font-bold text-primary-foreground shadow-md"
               aria-hidden
             >
-              {handedToSales ? "S" : "A"}
+              {handedToSales ? assignedSalesName?.trim()?.[0]?.toUpperCase() || "S" : "S"}
             </div>
             <span
               className={cn(
@@ -582,7 +582,7 @@ export default function AlexChatDialog({
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-foreground truncate text-base font-semibold tracking-tight">
-              {handedToSales ? assignedSalesName || "Sales team" : "Alex"}
+              {handedToSales ? assignedSalesName || "Sales team" : "Sam"}
             </p>
             <p className="text-muted-foreground text-xs">
               Steel Building Depot · {phase === "profile" ? "Your details" : headerSubtitle}
@@ -799,15 +799,15 @@ export default function AlexChatDialog({
                 >
                   {m.role !== "user" && (
                     <p className="text-muted-foreground mb-1 text-[10px] font-semibold tracking-wide uppercase">
-                      {m.role === "sales" ? m.senderName || "Sales" : m.role === "admin" ? m.senderName || "Admin" : "Alex"}
+                      {m.role === "sales" ? m.senderName || "Sales" : m.role === "admin" ? m.senderName || "Admin" : "Sam"}
                     </p>
                   )}
                   <p className="whitespace-pre-wrap">{m.text}</p>
                 </div>
               </div>
             ))}
-            {alexTyping && !handedToSales && (
-              <TypingIndicator label="Alex is typing" />
+            {samTyping && !handedToSales && (
+              <TypingIndicator label="Sam is typing" />
             )}
             {salesTyping.active && (
               <TypingIndicator
@@ -827,7 +827,7 @@ export default function AlexChatDialog({
           <Input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={handedToSales ? "Message sales…" : "Message Alex…"}
+            placeholder={handedToSales ? "Message sales…" : "Message Sam…"}
             disabled={!canSend}
             className="bg-background border-border/80 h-11 flex-1 rounded-xl text-sm shadow-none"
             autoComplete="off"
@@ -847,3 +847,5 @@ export default function AlexChatDialog({
     </Dialog>
   );
 }
+
+export { AlexChatDialog as SamChatDialog };
